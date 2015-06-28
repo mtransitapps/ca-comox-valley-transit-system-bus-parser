@@ -18,6 +18,7 @@ import org.mtransit.parser.mt.data.MTrip;
 
 // http://bctransit.com/*/footer/open-data
 // http://bctransit.com/servlet/bctransit/data/GTFS.zip
+// http://bct2.baremetal.com:8080/GoogleTransit/BCTransit/google_transit.zip
 public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -41,8 +42,13 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		System.out.printf("Generating Comox Valley Transit System bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
+	private static final String INCLUDE_ONLY_SERVICE_ID_CONTAINS = "CX";
+
 	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
+		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null && !gCalendar.service_id.contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
+			return true;
+		}
 		if (this.serviceIds != null) {
 			return excludeUselessCalendar(gCalendar, this.serviceIds);
 		}
@@ -51,6 +57,9 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeCalendarDate(GCalendarDate gCalendarDates) {
+		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null && !gCalendarDates.service_id.contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
+			return true;
+		}
 		if (this.serviceIds != null) {
 			return excludeUselessCalendarDate(gCalendarDates, this.serviceIds);
 		}
@@ -69,6 +78,9 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeTrip(GTrip gTrip) {
+		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null && !gTrip.service_id.contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
+			return true;
+		}
 		if (this.serviceIds != null) {
 			return excludeUselessTrip(gTrip, this.serviceIds);
 		}
@@ -95,7 +107,6 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final String AGENCY_COLOR_GREEN = "34B233";// GREEN (from PDF Corporate Graphic Standards)
-	private static final String AGENCY_COLOR_BLUE = "002C77"; // BLUE (from PDF Corporate Graphic Standards)
 
 	private static final String AGENCY_COLOR = AGENCY_COLOR_GREEN;
 
@@ -112,6 +123,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	private static final String COLOR_49176D = "49176D";
 	private static final String COLOR_FCAF17 = "FCAF17";
 	private static final String COLOR_EC008C = "EC008C";
+	private static final String COLOR_401A64 = "401A64";
 	private static final String COLOR_AB5C3B = "AB5C3B";
 	private static final String COLOR_A3238E = "A3238E";
 	private static final String COLOR_B2A97E = "B2A97E";
@@ -132,6 +144,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			case 6: return COLOR_49176D;
 			case 7: return COLOR_FCAF17;
 			case 8: return COLOR_EC008C;
+			case 9: return COLOR_401A64;
 			case 10: return COLOR_AB5C3B;
 			case 11: return COLOR_A3238E;
 			case 12: return COLOR_B2A97E;
@@ -139,21 +152,30 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			case 99: return COLOR_00AA4F;
 			// @formatter:on
 			default:
-				return AGENCY_COLOR_BLUE;
+				System.out.printf("%s: Unexpected route color %s.\n", gRoute.route_id, gRoute);
+				System.exit(-1);
+				return null;
 			}
 		}
 		return super.getRouteColor(gRoute);
 	}
 
-	private static final String EXCHANGE_SHORT = "Ex";
+	private static final String BEACH_BUS = "Beach Bus";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
+		if (mRoute.id == 9) {
+			if (gTrip.direction_id == 0) {
+				mTrip.setHeadsignString(BEACH_BUS, gTrip.direction_id);
+				return;
+			}
+		}
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.trip_headsign), gTrip.direction_id);
 	}
 
-	private static final Pattern EXCHANGE = Pattern.compile("(exchange)", Pattern.CASE_INSENSITIVE);
-	private static final String EXCHANGE_REPLACEMENT = EXCHANGE_SHORT;
+	private static final String EXCH = "Exch";
+	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W){1}(exchange)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String EXCHANGE_REPLACEMENT = "$2" + EXCH + "$4";
 
 	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^[\\d]+[\\S]*)", Pattern.CASE_INSENSITIVE);
 
@@ -178,6 +200,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		tripHeadsign = CLEAN_P2.matcher(tripHeadsign).replaceAll(CLEAN_P2_REPLACEMENT);
 		tripHeadsign = STARTS_WITH_NUMBER.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = MSpec.cleanStreetTypes(tripHeadsign);
+		tripHeadsign = MSpec.cleanNumbers(tripHeadsign);
 		return MSpec.cleanLabel(tripHeadsign);
 	}
 
@@ -192,6 +215,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		gStopName = AT.matcher(gStopName).replaceAll(AT_REPLACEMENT);
 		gStopName = EXCHANGE.matcher(gStopName).replaceAll(EXCHANGE_REPLACEMENT);
 		gStopName = MSpec.cleanStreetTypes(gStopName);
+		gStopName = MSpec.cleanNumbers(gStopName);
 		return MSpec.cleanLabel(gStopName);
 	}
 }
