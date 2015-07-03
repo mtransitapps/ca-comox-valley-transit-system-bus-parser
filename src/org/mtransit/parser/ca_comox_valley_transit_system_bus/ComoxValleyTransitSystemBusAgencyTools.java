@@ -164,7 +164,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		if (mRoute.id == 9) {
+		if (mRoute.id == 9l) {
 			if (gTrip.direction_id == 0) {
 				mTrip.setHeadsignString(BEACH_BUS, gTrip.direction_id);
 				return;
