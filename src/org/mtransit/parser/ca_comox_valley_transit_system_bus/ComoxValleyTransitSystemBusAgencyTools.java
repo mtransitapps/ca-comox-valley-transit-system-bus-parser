@@ -1,24 +1,34 @@
 package org.mtransit.parser.ca_comox_valley_transit_system_bus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
+import org.mtransit.parser.Pair;
+import org.mtransit.parser.SplitUtils;
+import org.mtransit.parser.SplitUtils.RouteTripSpec;
 import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GCalendar;
 import org.mtransit.parser.gtfs.data.GCalendarDate;
 import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GSpec;
+import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
+import org.mtransit.parser.gtfs.data.GTripStop;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
-import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.mt.data.MTrip;
+import org.mtransit.parser.mt.data.MTripStop;
 
-// http://bctransit.com/*/footer/open-data
-// http://bctransit.com/servlet/bctransit/data/GTFS.zip
-// http://bct2.baremetal.com:8080/GoogleTransit/BCTransit/google_transit.zip
+// https://bctransit.com/*/footer/open-data
+// https://bctransit.com/servlet/bctransit/data/GTFS - Comox Valley
 public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -160,17 +170,246 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
-	private static final String BEACH_BUS = "Beach Bus";
+	private static final String AIRPORT = "Airport";
+	private static final String BUCKLEY_BAY = "Buckley Bay";
+	private static final String COMOX = "Comox";
+	private static final String CUMBERLAND = "Cumberland";
+	private static final String DOWNTOWN = "Downtown";
+	private static final String DRIFTWOOD_MALL = "Driftwood Mall";
+	private static final String LITTLE_RIVER = "Little River";
+	private static final String LITTLE_RIVER_P_RIVER_FERRY = LITTLE_RIVER + " P. River Ferry";
+	private static final String OYSTER_RIVER = "Oyster River";
+	private static final String ROYSTON = "Royston";
+	private static final String VANIER = "Vanier";
+
+	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
+	static {
+		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
+		map2.put(3L, new RouteTripSpec(3L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN, // COURTENAY, //
+				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"111316", // Southbound Torrence at Ridgemount
+								"111278", // Northbound Fitzgerald at 26th St
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111304", // Eastbound Guthrie at Stadacona
+								"111315", // Eastbound Guthrie at Skeena
+								"111316", // Southbound Torrence at Ridgemount
+						})) //
+				.compileBothTripSort());
+		map2.put(4L, new RouteTripSpec(4L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN, // COURTENAY, //
+				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"111340", // Eastbound Comox at St Joseph Hospital
+								"111350", // Eastbound Comox at Nordin
+								"111358", // == Westbound Guthrie at Skeena
+								"134008", // != Westbound Guthrie at Pritchard
+								"111359", // != Southbound Pritchard at Maquinna
+								"111366", // != Northbound Church at Hemlock
+								"111369", // != Northbound Anderton at Guthrie
+								"111370", // == Westbound Guthrie at Stadacona
+								"111375", // == Northbound Lerwick at Valley View
+								"111479", // != Eastbound 940 block Brooks
+								"111478", // != Northbound Lerwick at Malahat
+								"111377", // == Northbound 470 block Lerwick
+								"111448", // Eastbound 3070 block Ryan
+								"134010", // != Westbound Colby at Lerwick
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111278", // Northbound Fitzgerald at 26th St
+								"111340", // Eastbound Comox at St Joseph Hospital
+						})) //
+				.compileBothTripSort());
+		map2.put(5L, new RouteTripSpec(5L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, VANIER, //
+				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111296", // !=
+								"111278", // Northbound Fitzgerald at 26th St
+								"110270", // !=
+								"111492", // == Eastbound 2990 block Vanier
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"111492", // Eastbound 2990 block Vanier
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.compileBothTripSort());
+		map2.put(6L, new RouteTripSpec(6L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
+				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111385", // ++
+								"111299", // Northbound College Campus
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"111299", // Northbound College Campus
+								"111463", // ++
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.compileBothTripSort());
+		map2.put(7L, new RouteTripSpec(7L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, DRIFTWOOD_MALL, //
+				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111457", // ++
+								"111405", // == Eastbound Woods at Martin
+								"134003", // != Northbound 5th Street at Pidcock >> DOWNTOWN
+								"111406", // != Southbound 5th St at Willemar
+								"111278", // Northbound Fitzgerald at 26th St
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"111278", // Northbound Fitzgerald at 26th St
+								"111284", // != Northbound Fitzgerald at 10th St
+								"134003", // != Northbound 5th Street at Pidcock
+								"111432", // != Eastbound 5th St at Kilpatrick
+								"111286", // == Northbound Fitzgerald at 5th St
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.compileBothTripSort());
+		map2.put(12L, new RouteTripSpec(12L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, OYSTER_RIVER, //
+				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) // COURTENAY) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111296", // ==
+								"110270", // !=
+								"111492", // <>
+								"134023", // ==
+								"134021", // Westbound Glenmore at Lambeth {
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"134021", // Westbound Glenmore at Lambeth
+								"134016", // ==
+								"111492", // != <>
+								"110227", // !=
+								"111379", // !=
+								"111380", // ==
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.compileBothTripSort());
+		map2.put(34L, new RouteTripSpec(34L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN, // COURTENAY, //
+				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"111323", // Westbound Comox at Nordin
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111350", // Eastbound Comox at Nordin
+						})) //
+				.compileBothTripSort());
+		ALL_ROUTE_TRIPS2 = map2;
+	}
+
+	@Override
+	public int compareEarly(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
+		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
+			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
+		}
+		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
+	}
+
+	@Override
+	public ArrayList<MTrip> splitTrip(MRoute mRoute, GTrip gTrip, GSpec gtfs) {
+		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
+			return ALL_ROUTE_TRIPS2.get(mRoute.getId()).getAllTrips();
+		}
+		return super.splitTrip(mRoute, gTrip, gtfs);
+	}
+
+	@Override
+	public Pair<Long[], Integer[]> splitTripStop(MRoute mRoute, GTrip gTrip, GTripStop gTripStop, ArrayList<MTrip> splitTrips, GSpec routeGTFS) {
+		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
+			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()));
+		}
+		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
+	}
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		if (mRoute.getId() == 9l) {
-			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignString(BEACH_BUS, gTrip.getDirectionId());
+		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
+			return; // split
+		}
+		if (mRoute.getId() == 99L) {
+			if (gTrip.getDirectionId() == 0 && "VPM Connector".equals(gTrip.getTripHeadsign())) {
+				mTrip.setHeadsignString("AM", gTrip.getDirectionId());
+				return;
+			} else if (gTrip.getDirectionId() == 1 && "VPM Connector".equals(gTrip.getTripHeadsign())) {
+				mTrip.setHeadsignString("PM", gTrip.getDirectionId());
 				return;
 			}
 		}
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
+	}
+
+	@Override
+	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
+		if (mTrip.getRouteId() == 2l) {
+			if (Arrays.asList( //
+					DRIFTWOOD_MALL, //
+					DOWNTOWN //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				return true;
+			} else if (Arrays.asList( //
+					ROYSTON, //
+					CUMBERLAND //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(CUMBERLAND, mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 10l) {
+			if (Arrays.asList( //
+					ROYSTON, //
+					BUCKLEY_BAY //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(BUCKLEY_BAY, mTrip.getHeadsignId());
+				return true;
+			} else if (Arrays.asList( //
+					CUMBERLAND, //
+					DRIFTWOOD_MALL, //
+					DOWNTOWN //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 11l) {
+			if (Arrays.asList( //
+					AIRPORT, //
+					LITTLE_RIVER_P_RIVER_FERRY //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(AIRPORT, mTrip.getHeadsignId());
+				return true;
+			}
+		}
+		System.out.printf("\n%s: Unexpected trips to merge: %s & %s!\n", mTrip.getRouteId(), mTrip, mTripToMerge);
+		System.exit(-1);
+		return false;
 	}
 
 	private static final String EXCH = "Exch";
@@ -190,9 +429,16 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	private static final Pattern CLEAN_P2 = Pattern.compile("[\\s]*\\)[\\s]*");
 	private static final String CLEAN_P2_REPLACEMENT = ") ";
 
+	private static final Pattern DOWNTOWN_ = Pattern.compile("((^|\\W){1}(downtwon)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String DOWNTOWN_REPLACEMENT = "$2" + DOWNTOWN + "$4";
+
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
+		if (Utils.isUppercaseOnly(tripHeadsign, true, true)) {
+			tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
+		}
 		tripHeadsign = EXCHANGE.matcher(tripHeadsign).replaceAll(EXCHANGE_REPLACEMENT);
+		tripHeadsign = DOWNTOWN_.matcher(tripHeadsign).replaceAll(DOWNTOWN_REPLACEMENT);
 		tripHeadsign = ENDS_WITH_VIA.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = STARTS_WITH_TO.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = AND.matcher(tripHeadsign).replaceAll(AND_REPLACEMENT);
