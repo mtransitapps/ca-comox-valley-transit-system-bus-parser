@@ -23,6 +23,7 @@ import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.gtfs.data.GTripStop;
 import org.mtransit.parser.mt.data.MAgency;
+import org.mtransit.parser.mt.data.MDirectionType;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
@@ -158,11 +159,13 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			case 10: return COLOR_AB5C3B;
 			case 11: return COLOR_A3238E;
 			case 12: return COLOR_B2A97E;
+			case 13: return null; // TODO
+			case 14: return null; // TODO
 			case 34: return COLOR_7C3F24;
 			case 99: return COLOR_00AA4F;
 			// @formatter:on
 			default:
-				System.out.printf("%s: Unexpected route color %s.\n", gRoute.getRouteId(), gRoute);
+				System.out.printf("\n%s: Unexpected route color for %s!\n", gRoute.getRouteId(), gRoute);
 				System.exit(-1);
 				return null;
 			}
@@ -295,7 +298,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								"110270", // !=
 								"111492", // <>
 								"134023", // ==
-								"134021", // Westbound Glenmore at Lambeth {
+								"134021", // Westbound Glenmore at Lambeth
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
@@ -306,6 +309,36 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								"111379", // !=
 								"111380", // ==
 								"111270", // Downtown Exchange Bay B
+						})) //
+				.compileBothTripSort());
+		map2.put(13L, new RouteTripSpec(13L, //
+				MDirectionType.NORTH.intValue(), MTrip.HEADSIGN_TYPE_STRING, "Merville", //
+				MDirectionType.SOUTH.intValue(), MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
+				.addTripSort(MDirectionType.NORTH.intValue(), //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111299", // ++
+								"134017", // Northbound Island Hwy N at Sackville
+						})) //
+				.addTripSort(MDirectionType.SOUTH.intValue(), //
+						Arrays.asList(new String[] { //
+						"134017", // Northbound Island Hwy N at Sackville
+								"111380", // ++
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.compileBothTripSort());
+		map2.put(14L, new RouteTripSpec(14L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN, //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Union Bay") //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"103863", // Northbound Island Hwy S at McLeod
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111435", // Southbound Island Hwy S at Russell
 						})) //
 				.compileBothTripSort());
 		map2.put(34L, new RouteTripSpec(34L, //
@@ -401,7 +434,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == 11l) {
 			if (Arrays.asList( //
 					AIRPORT, //
-					LITTLE_RIVER_P_RIVER_FERRY //
+					LITTLE_RIVER_P_RIVER_FERRY, //
+					"Little River P. River Ferry Airport" //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(AIRPORT, mTrip.getHeadsignId());
 				return true;
