@@ -121,6 +121,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final String AGENCY_COLOR_GREEN = "34B233";// GREEN (from PDF Corporate Graphic Standards)
+	private static final String AGENCY_COLOR_BLUE = "002C77"; // BLUE (from PDF Corporate Graphic Standards)
 
 	private static final String AGENCY_COLOR = AGENCY_COLOR_GREEN;
 
@@ -168,6 +169,9 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			case 99: return COLOR_00AA4F;
 			// @formatter:on
 			default:
+				if (isGoodEnoughAccepted()) {
+					return AGENCY_COLOR_BLUE;
+				}
 				System.out.printf("\n%s: Unexpected route color for %s!\n", gRoute.getRouteId(), gRoute);
 				System.exit(-1);
 				return null;
@@ -291,6 +295,32 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								"111270", // Downtown Exchange Bay B
 						})) //
 				.compileBothTripSort());
+		map2.put(11L, new RouteTripSpec(11L, //
+				0, MTrip.HEADSIGN_TYPE_STRING, AIRPORT, //
+				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
+				.addTripSort(0, //
+						Arrays.asList(new String[] { //
+						"111270", // Downtown Exchange Bay B
+								"111448", // == Eastbound 3070 block Ryan
+								"134011", // != Eastbound Ryan at Anderton
+								"103873", // != Eastbound E Ryan at Greenwood
+								"111366", // != Northbound Church at Hemlock <=
+								"111369", // !=
+								"134012", // Northbound Anderton at Ryan
+								"110379", // != Northbound Island Hwy at Greenwood
+								"111449", // != Northbound 1300 block Ellenor
+								"111450", // <> Southbound Military at E Ryan
+								"111451", // !=
+								"111452", // Westbound 1250 block Knight
+						})) //
+				.addTripSort(1, //
+						Arrays.asList(new String[] { //
+						"111452", // != Westbound 1250 block Knight
+								"111450", // != <> Southbound Military at E Ryan <=
+								"111475", // == !=
+								"111270", // Downtown Exchange Bay B
+						})) //
+				.compileBothTripSort());
 		map2.put(12L, new RouteTripSpec(12L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, OYSTER_RIVER, //
 				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) // COURTENAY) //
@@ -364,7 +394,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public int compareEarly(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
 		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
-			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
+			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
 		}
 		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
 	}
@@ -380,7 +410,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public Pair<Long[], Integer[]> splitTripStop(MRoute mRoute, GTrip gTrip, GTripStop gTripStop, ArrayList<MTrip> splitTrips, GSpec routeGTFS) {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()));
+			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()), this);
 		}
 		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
 	}
@@ -390,13 +420,15 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
 			return; // split
 		}
-		if (mRoute.getId() == 99L) {
-			if (gTrip.getDirectionId() == 0 && "VPM Connector".equals(gTrip.getTripHeadsign())) {
-				mTrip.setHeadsignString("AM", gTrip.getDirectionId());
-				return;
-			} else if (gTrip.getDirectionId() == 1 && "VPM Connector".equals(gTrip.getTripHeadsign())) {
-				mTrip.setHeadsignString("PM", gTrip.getDirectionId());
-				return;
+		if (isGoodEnoughAccepted()) {
+			if (mRoute.getId() == 99L) {
+				if (gTrip.getDirectionId() == 0 && "VPM Connector".equals(gTrip.getTripHeadsign())) {
+					mTrip.setHeadsignString("AM", gTrip.getDirectionId());
+					return;
+				} else if (gTrip.getDirectionId() == 1 && "VPM Connector".equals(gTrip.getTripHeadsign())) {
+					mTrip.setHeadsignString("PM", gTrip.getDirectionId());
+					return;
+				}
 			}
 		}
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
@@ -439,10 +471,13 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					AIRPORT, //
 					LITTLE_RIVER_P_RIVER_FERRY, //
 					"Little River P. River Ferry Airport" //
-					).containsAll(headsignsValues)) {
+			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(AIRPORT, mTrip.getHeadsignId());
 				return true;
 			}
+		}
+		if (isGoodEnoughAccepted()) {
+			return super.mergeHeadsign(mTrip, mTripToMerge);
 		}
 		System.out.printf("\n%s: Unexpected trips to merge: %s & %s!\n", mTrip.getRouteId(), mTrip, mTripToMerge);
 		System.exit(-1);
@@ -488,7 +523,6 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final Pattern STARTS_WITH_BOUND = Pattern.compile("(^(east|west|north|south)bound)", Pattern.CASE_INSENSITIVE);
-
 
 	@Override
 	public String cleanStopName(String gStopName) {
