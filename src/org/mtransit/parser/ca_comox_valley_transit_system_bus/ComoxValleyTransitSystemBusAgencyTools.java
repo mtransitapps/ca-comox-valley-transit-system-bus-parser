@@ -53,6 +53,11 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		System.out.printf("\nGenerating Comox Valley Transit System bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
+	@Override
+	public boolean excludingAll() {
+		return this.serviceIds != null && this.serviceIds.isEmpty();
+	}
+
 	private static final String INCLUDE_ONLY_SERVICE_ID_CONTAINS = "CX";
 
 	@Override
