@@ -58,7 +58,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return this.serviceIds != null && this.serviceIds.isEmpty();
 	}
 
-	private static final String INCLUDE_ONLY_SERVICE_ID_CONTAINS = "CX";
+	private static final String INCLUDE_ONLY_SERVICE_ID_CONTAINS = null;
 
 	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
@@ -191,11 +191,11 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	private static final String CUMBERLAND = "Cumberland";
 	private static final String DOWNTOWN = "Downtown";
 	private static final String DRIFTWOOD_MALL = "Driftwood Mall";
-	private static final String LITTLE_RIVER = "Little River";
-	private static final String LITTLE_RIVER_P_RIVER_FERRY = LITTLE_RIVER + " P. River Ferry";
 	private static final String OYSTER_RIVER = "Oyster River";
 	private static final String ROYSTON = "Royston";
 	private static final String VANIER = "Vanier";
+	private static final String COURTENAY = "Courtenay";
+	private static final String SCHOOLS = "Schools";
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
@@ -222,27 +222,27 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111340", // Eastbound Comox at St Joseph Hospital
+						"111341", // Rodello at Fairbairn
 								"111350", // Eastbound Comox at Nordin
 								"111358", // == Westbound Guthrie at Skeena
-								"134008", // != Westbound Guthrie at Pritchard
-								"111359", // != Southbound Pritchard at Maquinna
+								"134008", // !== Westbound Guthrie at Pritchard
+								"111359", // !== Southbound Pritchard at Maquinna
 								"111366", // != Northbound Church at Hemlock
-								"111369", // != Northbound Anderton at Guthrie
+								"111369", // !== Northbound Anderton at Guthrie
 								"111370", // == Westbound Guthrie at Stadacona
 								"111375", // == Northbound Lerwick at Valley View
-								"111479", // != Eastbound 940 block Brooks
 								"111478", // != Northbound Lerwick at Malahat
 								"111377", // == Northbound 470 block Lerwick
-								"111448", // Eastbound 3070 block Ryan
+								"111448", // != Eastbound 3070 block Ryan =>
 								"134010", // != Westbound Colby at Lerwick
-								"111270", // Downtown Exchange Bay B
+								"111270", // Downtown Exchange Bay B =>
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
 						"111270", // Downtown Exchange Bay B
 								"111278", // Northbound Fitzgerald at 26th St
 								"111340", // Eastbound Comox at St Joseph Hospital
+								"111341", // Rodello at Fairbairn
 						})) //
 				.compileBothTripSort());
 		map2.put(5L, new RouteTripSpec(5L, //
@@ -250,15 +250,17 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
+						"111270", // Downtown Exchange Bay B <=
 								"111296", // !=
-								"111278", // Northbound Fitzgerald at 26th St
-								"110270", // !=
-								"111492", // == Eastbound 2990 block Vanier
+								"111278", // != Northbound Fitzgerald at 26th St <=
+								"111337", // !=
+								"110270", // ==
+								"110526", // Comox Valley Sports Centre
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"111492", // Eastbound 2990 block Vanier
+						"110526", // Comox Valley Sports Centre
+								"111380", // ++
 								"111270", // Downtown Exchange Bay B
 						})) //
 				.compileBothTripSort());
@@ -300,32 +302,6 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								"111270", // Downtown Exchange Bay B
 						})) //
 				.compileBothTripSort());
-		map2.put(11L, new RouteTripSpec(11L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, AIRPORT, //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111448", // == Eastbound 3070 block Ryan
-								"134011", // != Eastbound Ryan at Anderton
-								"103873", // != Eastbound E Ryan at Greenwood
-								"111366", // != Northbound Church at Hemlock <=
-								"111369", // !=
-								"134012", // Northbound Anderton at Ryan
-								"110379", // != Northbound Island Hwy at Greenwood
-								"111449", // != Northbound 1300 block Ellenor
-								"111450", // <> Southbound Military at E Ryan
-								"111451", // !=
-								"111452", // Westbound 1250 block Knight
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"111452", // != Westbound 1250 block Knight
-								"111450", // != <> Southbound Military at E Ryan <=
-								"111475", // == !=
-								"111270", // Downtown Exchange Bay B
-						})) //
-				.compileBothTripSort());
 		map2.put(12L, new RouteTripSpec(12L, //
 				0, MTrip.HEADSIGN_TYPE_STRING, OYSTER_RIVER, //
 				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) // COURTENAY) //
@@ -334,15 +310,17 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 						"111270", // Downtown Exchange Bay B
 								"111296", // ==
 								"110270", // !=
-								"111492", // <>
-								"134023", // ==
+								"111492", // ==
 								"134021", // Westbound Glenmore at Lambeth
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
 						"134021", // Westbound Glenmore at Lambeth
+								"103860", // ==
+								"110413", // !=
+								"103861", // ==
 								"134016", // ==
-								"111492", // != <>
+								"110526", // !=
 								"110227", // !=
 								"111379", // !=
 								"111380", // ==
@@ -356,11 +334,11 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						"111270", // Downtown Exchange Bay B
 								"111299", // ++
-								"134017", // Northbound Island Hwy N at Sackville
+								"110448", // Merville Rd Farside Island Hwy
 						})) //
 				.addTripSort(MDirectionType.SOUTH.intValue(), //
 						Arrays.asList(new String[] { //
-						"134017", // Northbound Island Hwy N at Sackville
+						"110448", // Merville Rd Farside Island Hwy
 								"111380", // ++
 								"111270", // Downtown Exchange Bay B
 						})) //
@@ -385,12 +363,27 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
 						"111323", // Westbound Comox at Nordin
+								"111371", // Guthrie at Aspen
 								"111270", // Downtown Exchange Bay B
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
 						"111270", // Downtown Exchange Bay B
+								"111300", // ++
 								"111350", // Eastbound Comox at Nordin
+						})) //
+				.compileBothTripSort());
+		map2.put(99L, new RouteTripSpec(99L, //
+				MDirectionType.EAST.intValue(), MTrip.HEADSIGN_TYPE_STRING, SCHOOLS, // AM
+				MDirectionType.WEST.intValue(), MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) // PM
+				.addTripSort(MDirectionType.EAST.intValue(), //
+						Arrays.asList(new String[] { //
+						/* no stops */
+						})) //
+				.addTripSort(MDirectionType.WEST.intValue(), //
+						Arrays.asList(new String[] { //
+						"103874", // E Ryan at Little River
+								"111270", // Downtown Exchange
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
@@ -425,64 +418,54 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
 			return; // split
 		}
-		if (isGoodEnoughAccepted()) {
-			if (mRoute.getId() == 99L) {
-				if (gTrip.getDirectionId() == 0 && "VPM Connector".equals(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString("AM", gTrip.getDirectionId());
-					return;
-				} else if (gTrip.getDirectionId() == 1 && "VPM Connector".equals(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString("PM", gTrip.getDirectionId());
-					return;
-				}
-			}
-		}
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
 	}
 
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
-		if (mTrip.getRouteId() == 2l) {
+		if (mTrip.getRouteId() == 2L) {
 			if (Arrays.asList( //
-					DRIFTWOOD_MALL, //
-					DOWNTOWN //
+					DRIFTWOOD_MALL, // ==
+					DOWNTOWN // ==
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			} else if (Arrays.asList( //
+					DRIFTWOOD_MALL, // ==
+					DOWNTOWN, // ==
 					ROYSTON, //
+					BUCKLEY_BAY, //
 					CUMBERLAND //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(CUMBERLAND, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 10l) {
+		} else if (mTrip.getRouteId() == 10L) {
 			if (Arrays.asList( //
-					ROYSTON, //
+					CUMBERLAND, // ==
 					BUCKLEY_BAY //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(BUCKLEY_BAY, mTrip.getHeadsignId());
 				return true;
 			} else if (Arrays.asList( //
-					CUMBERLAND, //
+					CUMBERLAND, // ==
 					DRIFTWOOD_MALL, //
-					DOWNTOWN //
+					DOWNTOWN, //
+					COURTENAY // ++
 					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				mTrip.setHeadsignString(COURTENAY, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 11l) {
+		} else if (mTrip.getRouteId() == 11L) {
 			if (Arrays.asList( //
-					AIRPORT, //
-					LITTLE_RIVER_P_RIVER_FERRY, //
-					"Little River P. River Ferry Airport" //
-			).containsAll(headsignsValues)) {
+					DOWNTOWN, // ==
+					"Little River - P. R. Ferry - Airport", //
+					AIRPORT // ++
+					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(AIRPORT, mTrip.getHeadsignId());
 				return true;
 			}
-		}
-		if (isGoodEnoughAccepted()) {
-			return super.mergeHeadsign(mTrip, mTripToMerge);
 		}
 		System.out.printf("\n%s: Unexpected trips to merge: %s & %s!\n", mTrip.getRouteId(), mTrip, mTripToMerge);
 		System.exit(-1);
