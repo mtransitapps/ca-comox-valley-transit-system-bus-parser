@@ -30,6 +30,7 @@ import org.mtransit.parser.mt.data.MTripStop;
 
 // https://bctransit.com/*/footer/open-data
 // https://bctransit.com/servlet/bctransit/data/GTFS - Comox Valley
+// https://comox.mapstrat.com/current/google_transit.zip
 public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -82,7 +83,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return super.excludeCalendarDate(gCalendarDates);
 	}
 
-	private static final String INCLUDE_AGENCY_ID = "12"; // Comox Valley Transit System only
+	private static final String INCLUDE_AGENCY_ID = "1"; // Comox Valley Transit System only
 
 	@Override
 	public boolean excludeRoute(GRoute gRoute) {
@@ -205,16 +206,16 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111316", // Southbound Torrence at Ridgemount
-								"111278", // Northbound Fitzgerald at 26th St
-								"111270", // Downtown Exchange Bay B
+						"64", // "111316", // Southbound Torrence at Ridgemount
+								"1", // "111278", // Northbound Fitzgerald at 26th St
+								"8", // "111270", // Downtown Exchange Bay B
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111304", // Eastbound Guthrie at Stadacona
-								"111315", // Eastbound Guthrie at Skeena
-								"111316", // Southbound Torrence at Ridgemount
+						"8", // "111270", // Downtown Exchange Bay B
+								"52", // "111304", // Eastbound Guthrie at Stadacona
+								"63", // "111315", // Eastbound Guthrie at Skeena
+								"64", // "111316", // Southbound Torrence at Ridgemount
 						})) //
 				.compileBothTripSort());
 		map2.put(4L, new RouteTripSpec(4L, //
@@ -222,27 +223,27 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111341", // Rodello at Fairbairn
-								"111350", // Eastbound Comox at Nordin
-								"111358", // == Westbound Guthrie at Skeena
-								"134008", // !== Westbound Guthrie at Pritchard
-								"111359", // !== Southbound Pritchard at Maquinna
-								"111366", // != Northbound Church at Hemlock
-								"111369", // !== Northbound Anderton at Guthrie
-								"111370", // == Westbound Guthrie at Stadacona
-								"111375", // == Northbound Lerwick at Valley View
-								"111478", // != Northbound Lerwick at Malahat
-								"111377", // == Northbound 470 block Lerwick
-								"111448", // != Eastbound 3070 block Ryan =>
-								"134010", // != Westbound Colby at Lerwick
-								"111270", // Downtown Exchange Bay B =>
+						"90", // "111341", // Rodello at Fairbairn
+								"98", // "111350", // Eastbound Comox at Nordin
+								"106", // "111358", // == Westbound Guthrie at Skeena
+								"138", // "134008", // !== Westbound Guthrie at Pritchard
+								"107", // "111359", // !== Southbound Pritchard at Maquinna
+								"114", // "111366", // != Northbound Church at Hemlock
+								"117", // "111369", // !== Northbound Anderton at Guthrie
+								"118", // "111370", // == Westbound Guthrie at Stadacona
+								"123", // "111375", // == Northbound Lerwick at Valley View
+								"124", // "111478", // != Northbound Lerwick at Malahat
+								"125", // "111377", // == Northbound 470 block Lerwick
+								"139", // "111448", // != Eastbound 3070 block Ryan =>
+								"126", // "134010", // != Westbound Colby at Lerwick
+								"8", // "111270", // Downtown Exchange Bay B =>
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111278", // Northbound Fitzgerald at 26th St
-								"111340", // Eastbound Comox at St Joseph Hospital
-								"111341", // Rodello at Fairbairn
+						"8", // "111270", // Downtown Exchange Bay B
+								"1", // "111278", // Northbound Fitzgerald at 26th St
+								"137", // "111340", // Eastbound Comox at St Joseph Hospital
+								"90", // "111341", // Rodello at Fairbairn
 						})) //
 				.compileBothTripSort());
 		map2.put(5L, new RouteTripSpec(5L, //
@@ -250,18 +251,18 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B <=
-								"111296", // !=
-								"111278", // != Northbound Fitzgerald at 26th St <=
-								"111337", // !=
-								"110270", // ==
-								"110526", // Comox Valley Sports Centre
+						"8", // "111270", // Downtown Exchange Bay B <=
+								"41", // "111296", // !=
+								"1", // "111278", // != Northbound Fitzgerald at 26th St <=
+								"87", // "111337", // !=
+								"140", // "110270", // ==
+								"141", // "110526", // Comox Valley Sports Centre
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"110526", // Comox Valley Sports Centre
-								"111380", // ++
-								"111270", // Downtown Exchange Bay B
+						"141", // "110526", // Comox Valley Sports Centre
+								"130", // "111380", // ++
+								"8", // "111270", // Downtown Exchange Bay B
 						})) //
 				.compileBothTripSort());
 		map2.put(6L, new RouteTripSpec(6L, //
@@ -269,15 +270,15 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111385", // ++
-								"111299", // Northbound College Campus
+						"8", // "111270", // Downtown Exchange Bay B
+								"146", // "111385", // ++
+								"44", // "111299", // Northbound College Campus
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"111299", // Northbound College Campus
-								"111463", // ++
-								"111270", // Downtown Exchange Bay B
+						"44", // "111299", // Northbound College Campus
+								"160", // "111463", // ++
+								"8", // "111270", // Downtown Exchange Bay B
 						})) //
 				.compileBothTripSort());
 		map2.put(7L, new RouteTripSpec(7L, //
@@ -285,21 +286,21 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111457", // ++
-								"111405", // == Eastbound Woods at Martin
-								"134003", // != Northbound 5th Street at Pidcock >> DOWNTOWN
-								"111406", // != Southbound 5th St at Willemar
-								"111278", // Northbound Fitzgerald at 26th St
+						"8", // "111270", // Downtown Exchange Bay B
+								"168", // "111457", // ++
+								"174", // "111405", // == Eastbound Woods at Martin
+								"175", // "134003", // != Northbound 5th Street at Pidcock >> DOWNTOWN
+								"177", // "111406", // != Southbound 5th St at Willemar
+								"1", // "111278", // Northbound Fitzgerald at 26th St
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"111278", // Northbound Fitzgerald at 26th St
-								"111284", // != Northbound Fitzgerald at 10th St
-								"134003", // != Northbound 5th Street at Pidcock
-								"111432", // != Eastbound 5th St at Kilpatrick
-								"111286", // == Northbound Fitzgerald at 5th St
-								"111270", // Downtown Exchange Bay B
+						"1", // "111278", // Northbound Fitzgerald at 26th St
+								"5", // "111284", // != Northbound Fitzgerald at 10th St
+								"175", // "134003", // != Northbound 5th Street at Pidcock
+								"176", // "111432", // != Eastbound 5th St at Kilpatrick
+								"6", // "111286", // == Northbound Fitzgerald at 5th St
+								"8", // "111270", // Downtown Exchange Bay B
 						})) //
 				.compileBothTripSort());
 		map2.put(12L, new RouteTripSpec(12L, //
@@ -307,24 +308,24 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) // COURTENAY) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111296", // ==
-								"110270", // !=
-								"111492", // ==
-								"134021", // Westbound Glenmore at Lambeth
+						"8", // "111270", // Downtown Exchange Bay B
+								"41", // "111296", // ==
+								"140", // "110270", // !=
+								"236", // "111492", // ==
+								"242", // "134021", // Westbound Glenmore at Lambeth
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"134021", // Westbound Glenmore at Lambeth
-								"103860", // ==
-								"110413", // !=
-								"103861", // ==
-								"134016", // ==
-								"110526", // !=
-								"110227", // !=
-								"111379", // !=
-								"111380", // ==
-								"111270", // Downtown Exchange Bay B
+						"242", // "134021", // Westbound Glenmore at Lambeth
+								"244", // "103860", // ==
+								"248", // "110413", // !=
+								"245", // "103861", // ==
+								"247", // "134016", // ==
+								"141", // "110526", // !=
+								"249", // "110227", // !=
+								"129", // "111379", // !=
+								"130", // "111380", // ==
+								"8", // "111270", // Downtown Exchange Bay B
 						})) //
 				.compileBothTripSort());
 		map2.put(13L, new RouteTripSpec(13L, //
@@ -332,15 +333,15 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				MDirectionType.SOUTH.intValue(), MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
 				.addTripSort(MDirectionType.NORTH.intValue(), //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111299", // ++
-								"110448", // Merville Rd Farside Island Hwy
+						"8", // "111270", // Downtown Exchange Bay B
+								"44", // "111299", // ++
+								"253", // "110448", // Merville Rd Farside Island Hwy
 						})) //
 				.addTripSort(MDirectionType.SOUTH.intValue(), //
 						Arrays.asList(new String[] { //
-						"110448", // Merville Rd Farside Island Hwy
-								"111380", // ++
-								"111270", // Downtown Exchange Bay B
+						"253", // "110448", // Merville Rd Farside Island Hwy
+								"130", // "111380", // ++
+								"8", // "111270", // Downtown Exchange Bay B
 						})) //
 				.compileBothTripSort());
 		map2.put(14L, new RouteTripSpec(14L, //
@@ -348,13 +349,13 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, "Union Bay") //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"103863", // Northbound Island Hwy S at McLeod
-								"111270", // Downtown Exchange Bay B
+						"219", // "103863", // Northbound Island Hwy S at McLeod
+								"8", // "111270", // Downtown Exchange Bay B
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111435", // Southbound Island Hwy S at Russell
+						"8", // "111270", // Downtown Exchange Bay B
+								"212", // "111435", // Southbound Island Hwy S at Russell
 						})) //
 				.compileBothTripSort());
 		map2.put(34L, new RouteTripSpec(34L, //
@@ -362,15 +363,15 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"111323", // Westbound Comox at Nordin
-								"111371", // Guthrie at Aspen
-								"111270", // Downtown Exchange Bay B
+						"71", // "111323", // Westbound Comox at Nordin
+								"119", // "111371", // Guthrie at Aspen
+								"8", // "111270", // Downtown Exchange Bay B
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"111270", // Downtown Exchange Bay B
-								"111300", // ++
-								"111350", // Eastbound Comox at Nordin
+						"8", // "111270", // Downtown Exchange Bay B
+								"47", // "111300", // ++
+								"98", // "111350", // Eastbound Comox at Nordin
 						})) //
 				.compileBothTripSort());
 		map2.put(99L, new RouteTripSpec(99L, //
@@ -382,8 +383,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 						})) //
 				.addTripSort(MDirectionType.WEST.intValue(), //
 						Arrays.asList(new String[] { //
-						"103874", // E Ryan at Little River
-								"111270", // Downtown Exchange
+						"235", // "103874", // E Ryan at Little River
+								"8", // "111270", // Downtown Exchange
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
