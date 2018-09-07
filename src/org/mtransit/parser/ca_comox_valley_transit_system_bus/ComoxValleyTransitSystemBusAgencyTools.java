@@ -23,7 +23,6 @@ import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.gtfs.data.GTripStop;
 import org.mtransit.parser.mt.data.MAgency;
-import org.mtransit.parser.mt.data.MDirectionType;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
@@ -127,6 +126,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static final String AGENCY_COLOR_GREEN = "34B233";// GREEN (from PDF Corporate Graphic Standards)
+	@SuppressWarnings("unused")
 	private static final String AGENCY_COLOR_BLUE = "002C77"; // BLUE (from PDF Corporate Graphic Standards)
 
 	private static final String AGENCY_COLOR = AGENCY_COLOR_GREEN;
@@ -136,48 +136,28 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return AGENCY_COLOR;
 	}
 
-	private static final String COLOR_004A8F = "004A8F";
-	private static final String COLOR_7FB539 = "7FB539";
-	private static final String COLOR_F78B1F = "F78B1F";
-	private static final String COLOR_52A6ED = "52A6ED";
-	private static final String COLOR_8E0C3A = "8E0C3A";
-	private static final String COLOR_49176D = "49176D";
-	private static final String COLOR_FCAF17 = "FCAF17";
-	private static final String COLOR_EC008C = "EC008C";
-	private static final String COLOR_401A64 = "401A64";
-	private static final String COLOR_AB5C3B = "AB5C3B";
-	private static final String COLOR_A3238E = "A3238E";
-	private static final String COLOR_B2A97E = "B2A97E";
-	private static final String COLOR_7C3F24 = "7C3F24";
-	private static final String COLOR_00AA4F = "00AA4F";
-
 	@Override
 	public String getRouteColor(GRoute gRoute) {
 		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
 			int rsn = Integer.parseInt(gRoute.getRouteShortName());
 			switch (rsn) {
 			// @formatter:off
-			case 1: return COLOR_004A8F;
-			case 2: return COLOR_7FB539;
-			case 3: return COLOR_F78B1F;
-			case 4: return COLOR_52A6ED;
-			case 5: return COLOR_8E0C3A;
-			case 6: return COLOR_49176D;
-			case 7: return COLOR_FCAF17;
-			case 8: return COLOR_EC008C;
-			case 9: return COLOR_401A64;
-			case 10: return COLOR_AB5C3B;
-			case 11: return COLOR_A3238E;
-			case 12: return COLOR_B2A97E;
-			case 13: return null; // TODO
-			case 14: return null; // TODO
-			case 34: return COLOR_7C3F24;
-			case 99: return COLOR_00AA4F;
+			case 1: return "004A8F";
+			case 2: return "7FB539";
+			case 3: return "F78B1F";
+			case 4: return "52A6ED";
+			case 5: return "8E0C3A";
+			case 6: return "49176D";
+			case 7: return "FCAF17";
+			case 8: return "EC008C";
+			case 9: return "401A64";
+			case 10: return "AB5C3B";
+			case 11: return "A3238E";
+			case 12: return "B2A97E";
+			case 34: return "7C3F24";
+			case 99: return "00AA4F";
 			// @formatter:on
 			default:
-				if (isGoodEnoughAccepted()) {
-					return AGENCY_COLOR_BLUE;
-				}
 				System.out.printf("\n%s: Unexpected route color for %s!\n", gRoute.getRouteId(), gRoute);
 				System.exit(-1);
 				return null;
@@ -186,205 +166,82 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
-	private static final String AIRPORT = "Airport";
-	private static final String BUCKLEY_BAY = "Buckley Bay";
-	private static final String COMOX = "Comox";
-	private static final String CUMBERLAND = "Cumberland";
-	private static final String DOWNTOWN = "Downtown";
-	private static final String DRIFTWOOD_MALL = "Driftwood Mall";
-	private static final String OYSTER_RIVER = "Oyster River";
-	private static final String ROYSTON = "Royston";
-	private static final String VANIER = "Vanier";
-	private static final String COURTENAY = "Courtenay";
-	private static final String SCHOOLS = "Schools";
+	// TRIP DIRECTION ID USED BY REAL-TIME API
+	private static final int COUNTERCLOCKWISE_0 = 0;
+	private static final int COUNTERCLOCKWISE_1 = 1;
+	private static final int SOUTH_0 = 40;
+	private static final int SOUTH_1 = 41;
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
-		map2.put(3L, new RouteTripSpec(3L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN, // COURTENAY, //
-				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
-				.addTripSort(0, //
+		map2.put(5L, new RouteTripSpec(5L, // TODO
+				SOUTH_0, MTrip.HEADSIGN_TYPE_STRING, "Comox Valley Sports Ctr", //
+				SOUTH_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
+				.addTripSort(SOUTH_0, //
 						Arrays.asList(new String[] { //
-						"64", // "111316", // Southbound Torrence at Ridgemount
-								"1", // "111278", // Northbound Fitzgerald at 26th St
-								"8", // "111270", // Downtown Exchange Bay B
+						"63", // "111486", // Downtown Exchange Bay A <=
+								"45", // "111296", // !=
+								"36", // "111278", // != Northbound Fitzgerald at 26th St <=
+								"115", // "111337", // !=
+								"119", // "110270", // ==
+								"120", // "110526", // Comox Valley Sports Centre
 						})) //
-				.addTripSort(1, //
+				.addTripSort(SOUTH_1, //
 						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B
-								"52", // "111304", // Eastbound Guthrie at Stadacona
-								"63", // "111315", // Eastbound Guthrie at Skeena
-								"64", // "111316", // Southbound Torrence at Ridgemount
-						})) //
-				.compileBothTripSort());
-		map2.put(4L, new RouteTripSpec(4L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN, // COURTENAY, //
-				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"90", // "111341", // Rodello at Fairbairn
-								"98", // "111350", // Eastbound Comox at Nordin
-								"106", // "111358", // == Westbound Guthrie at Skeena
-								"138", // "134008", // !== Westbound Guthrie at Pritchard
-								"107", // "111359", // !== Southbound Pritchard at Maquinna
-								"114", // "111366", // != Northbound Church at Hemlock
-								"117", // "111369", // !== Northbound Anderton at Guthrie
-								"118", // "111370", // == Westbound Guthrie at Stadacona
-								"123", // "111375", // == Northbound Lerwick at Valley View
-								"124", // "111478", // != Northbound Lerwick at Malahat
-								"125", // "111377", // == Northbound 470 block Lerwick
-								"139", // "111448", // != Eastbound 3070 block Ryan =>
-								"126", // "134010", // != Westbound Colby at Lerwick
-								"8", // "111270", // Downtown Exchange Bay B =>
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B
-								"1", // "111278", // Northbound Fitzgerald at 26th St
-								"137", // "111340", // Eastbound Comox at St Joseph Hospital
-								"90", // "111341", // Rodello at Fairbairn
-						})) //
-				.compileBothTripSort());
-		map2.put(5L, new RouteTripSpec(5L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, VANIER, //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B <=
-								"41", // "111296", // !=
-								"1", // "111278", // != Northbound Fitzgerald at 26th St <=
-								"87", // "111337", // !=
-								"140", // "110270", // ==
-								"141", // "110526", // Comox Valley Sports Centre
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"141", // "110526", // Comox Valley Sports Centre
-								"130", // "111380", // ++
-								"8", // "111270", // Downtown Exchange Bay B
+						"120", // "110526", // Comox Valley Sports Centre (NB)
+								"19", // "111380", // ++
+								"63", // "111486", // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(6L, new RouteTripSpec(6L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
-				.addTripSort(0, //
+				COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
+				COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
+				.addTripSort(COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B
-								"146", // "111385", // ++
-								"44", // "111299", // Northbound College Campus
+						"63", // "111486", // Downtown Exchange Bay A
+								"125", // "111385", // ++ Sitka at E 10th St (SB)
+								"133", // "111299", // NIC Campus Bay C (NB)
 						})) //
-				.addTripSort(1, //
+				.addTripSort(COUNTERCLOCKWISE_1, //
 						Arrays.asList(new String[] { //
-						"44", // "111299", // Northbound College Campus
-								"160", // "111463", // ++
-								"8", // "111270", // Downtown Exchange Bay B
-						})) //
-				.compileBothTripSort());
-		map2.put(7L, new RouteTripSpec(7L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, DRIFTWOOD_MALL, //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B
-								"168", // "111457", // ++
-								"174", // "111405", // == Eastbound Woods at Martin
-								"175", // "134003", // != Northbound 5th Street at Pidcock >> DOWNTOWN
-								"177", // "111406", // != Southbound 5th St at Willemar
-								"1", // "111278", // Northbound Fitzgerald at 26th St
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"1", // "111278", // Northbound Fitzgerald at 26th St
-								"5", // "111284", // != Northbound Fitzgerald at 10th St
-								"175", // "134003", // != Northbound 5th Street at Pidcock
-								"176", // "111432", // != Eastbound 5th St at Kilpatrick
-								"6", // "111286", // == Northbound Fitzgerald at 5th St
-								"8", // "111270", // Downtown Exchange Bay B
-						})) //
-				.compileBothTripSort());
-		map2.put(12L, new RouteTripSpec(12L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, OYSTER_RIVER, //
-				1, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) // COURTENAY) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B
-								"41", // "111296", // ==
-								"140", // "110270", // !=
-								"236", // "111492", // ==
-								"242", // "134021", // Westbound Glenmore at Lambeth
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"242", // "134021", // Westbound Glenmore at Lambeth
-								"244", // "103860", // ==
-								"248", // "110413", // !=
-								"245", // "103861", // ==
-								"247", // "134016", // ==
-								"141", // "110526", // !=
-								"249", // "110227", // !=
-								"129", // "111379", // !=
-								"130", // "111380", // ==
-								"8", // "111270", // Downtown Exchange Bay B
+						"133", // "111299", // NIC Campus Bay C (NB)
+								"140", // "111463", // ++ (-DCOM-)McLauchlin at Dingwall (SB)
+								"63", // "111486", // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(13L, new RouteTripSpec(13L, //
-				MDirectionType.NORTH.intValue(), MTrip.HEADSIGN_TYPE_STRING, "Merville", //
-				MDirectionType.SOUTH.intValue(), MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) //
-				.addTripSort(MDirectionType.NORTH.intValue(), //
-						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B
-								"44", // "111299", // ++
-								"253", // "110448", // Merville Rd Farside Island Hwy
-						})) //
-				.addTripSort(MDirectionType.SOUTH.intValue(), //
-						Arrays.asList(new String[] { //
-						"253", // "110448", // Merville Rd Farside Island Hwy
-								"130", // "111380", // ++
-								"8", // "111270", // Downtown Exchange Bay B
-						})) //
-				.compileBothTripSort());
-		map2.put(14L, new RouteTripSpec(14L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN, //
-				1, MTrip.HEADSIGN_TYPE_STRING, "Union Bay") //
+				0, MTrip.HEADSIGN_TYPE_STRING, "Merville", //
+				1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(0, //
 						Arrays.asList(new String[] { //
-						"219", // "103863", // Northbound Island Hwy S at McLeod
-								"8", // "111270", // Downtown Exchange Bay B
+						"63", // "111486", // Downtown Exchange Bay A
+								"133", // "111299", // ++ NIC Campus Bay C (NB)
+								"237", // "110448", // Merville Rd Farside Island Hwy (WB)
 						})) //
 				.addTripSort(1, //
 						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B
-								"212", // "111435", // Southbound Island Hwy S at Russell
-						})) //
-				.compileBothTripSort());
-		map2.put(34L, new RouteTripSpec(34L, //
-				0, MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN, // COURTENAY, //
-				1, MTrip.HEADSIGN_TYPE_STRING, COMOX) //
-				.addTripSort(0, //
-						Arrays.asList(new String[] { //
-						"71", // "111323", // Westbound Comox at Nordin
-								"119", // "111371", // Guthrie at Aspen
-								"8", // "111270", // Downtown Exchange Bay B
-						})) //
-				.addTripSort(1, //
-						Arrays.asList(new String[] { //
-						"8", // "111270", // Downtown Exchange Bay B
-								"47", // "111300", // ++
-								"98", // "111350", // Eastbound Comox at Nordin
+						"237", // "110448", // Merville Rd Farside Island Hwy (WB)
+								"19", // "111380", // ++ Old Island at Puntledge (SB)
+								"63", // "111486", // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(99L, new RouteTripSpec(99L, //
-				MDirectionType.EAST.intValue(), MTrip.HEADSIGN_TYPE_STRING, SCHOOLS, // AM
-				MDirectionType.WEST.intValue(), MTrip.HEADSIGN_TYPE_STRING, DOWNTOWN) // PM
-				.addTripSort(MDirectionType.EAST.intValue(), //
+				COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "Schools", // AM
+				COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") // PM
+				.addTripSort(COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						/* no stops */
+						"63", // "111486", // Downtown Exchange Bay A
+								"135", // "111390", // ++ Mission at Walbran (WB)
+								"220", // "111492", // Vanier 2990 block (EB)
 						})) //
-				.addTripSort(MDirectionType.WEST.intValue(), //
+				.addTripSort(COUNTERCLOCKWISE_1, //
 						Arrays.asList(new String[] { //
-						"235", // "103874", // E Ryan at Little River
-								"8", // "111270", // Downtown Exchange
+						"220", // "111492", // == Vanier 2990 block (EB)
+								"135", // "111390", // != Mission at Walbran (WB)
+								"18", // "111379", // != Ryan at Puntledge (WB)
+								"19", // "111380", // == Old Island at Puntledge (SB)
+								"63", // "111486", // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
@@ -425,46 +282,60 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
-		if (mTrip.getRouteId() == 2L) {
+		if (mTrip.getRouteId() == 1L) {
 			if (Arrays.asList( //
-					DRIFTWOOD_MALL, // ==
-					DOWNTOWN // ==
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+					"Downtown", // <>
+					"Anfield Ctr" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Anfield Ctr", mTrip.getHeadsignId());
 				return true;
-			} else if (Arrays.asList( //
-					DRIFTWOOD_MALL, // ==
-					DOWNTOWN, // ==
-					ROYSTON, //
-					BUCKLEY_BAY, //
-					CUMBERLAND //
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(CUMBERLAND, mTrip.getHeadsignId());
+			}
+			if (Arrays.asList( //
+					"Downtown", // <>
+					"Comox Mall" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Comox Mall", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 2L) {
+			if (Arrays.asList( //
+					"Comox Mall", //
+					"Downtown", //
+					"Anfield Ctr" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Anfield Ctr", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 3L) {
+			if (Arrays.asList( //
+					"Isfeld School", //
+					"Comox Local" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Comox Local", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 7L) {
+			if (Arrays.asList( //
+					"Driftwood Mall", //
+					"Arden" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Arden", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 10L) {
 			if (Arrays.asList( //
-					CUMBERLAND, // ==
-					BUCKLEY_BAY //
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(BUCKLEY_BAY, mTrip.getHeadsignId());
-				return true;
-			} else if (Arrays.asList( //
-					CUMBERLAND, // ==
-					DRIFTWOOD_MALL, //
-					DOWNTOWN, //
-					COURTENAY // ++
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(COURTENAY, mTrip.getHeadsignId());
+					"Downtown", //
+					"Downtown Courtenay" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Downtown Courtenay", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 11L) {
 			if (Arrays.asList( //
-					DOWNTOWN, // ==
-					"Little River - P. R. Ferry - Airport", //
-					AIRPORT // ++
-					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(AIRPORT, mTrip.getHeadsignId());
+					"Airport - Powell R. Ferry", //
+					"Airport" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Airport", mTrip.getHeadsignId());
 				return true;
 			}
 		}
@@ -482,16 +353,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	private static final Pattern ENDS_WITH_VIA = Pattern.compile("( via .*$)", Pattern.CASE_INSENSITIVE);
 	private static final Pattern STARTS_WITH_TO = Pattern.compile("(^.* to )", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern AND = Pattern.compile("( and )", Pattern.CASE_INSENSITIVE);
-	private static final String AND_REPLACEMENT = " & ";
-
-	private static final Pattern CLEAN_P1 = Pattern.compile("[\\s]*\\([\\s]*");
-	private static final String CLEAN_P1_REPLACEMENT = " (";
-	private static final Pattern CLEAN_P2 = Pattern.compile("[\\s]*\\)[\\s]*");
-	private static final String CLEAN_P2_REPLACEMENT = ") ";
-
 	private static final Pattern DOWNTOWN_ = Pattern.compile("((^|\\W){1}(downtwon)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
-	private static final String DOWNTOWN_REPLACEMENT = "$2" + DOWNTOWN + "$4";
+	private static final String DOWNTOWN_REPLACEMENT = "$2" + "Downtown" + "$4";
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
@@ -502,9 +365,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		tripHeadsign = DOWNTOWN_.matcher(tripHeadsign).replaceAll(DOWNTOWN_REPLACEMENT);
 		tripHeadsign = ENDS_WITH_VIA.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = STARTS_WITH_TO.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
-		tripHeadsign = AND.matcher(tripHeadsign).replaceAll(AND_REPLACEMENT);
-		tripHeadsign = CLEAN_P1.matcher(tripHeadsign).replaceAll(CLEAN_P1_REPLACEMENT);
-		tripHeadsign = CLEAN_P2.matcher(tripHeadsign).replaceAll(CLEAN_P2_REPLACEMENT);
+		tripHeadsign = CleanUtils.CLEAN_AND.matcher(tripHeadsign).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
 		tripHeadsign = STARTS_WITH_NUMBER.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		tripHeadsign = CleanUtils.cleanNumbers(tripHeadsign);
@@ -521,5 +382,10 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
 		gStopName = CleanUtils.cleanNumbers(gStopName);
 		return CleanUtils.cleanLabel(gStopName);
+	}
+
+	@Override
+	public int getStopId(GStop gStop) {
+		return Integer.parseInt(gStop.getStopCode()); // use stop code as stop ID
 	}
 }
