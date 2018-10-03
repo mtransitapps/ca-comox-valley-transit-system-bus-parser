@@ -180,18 +180,18 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				MDirectionType.SOUTH.intValue(), MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(MDirectionType.NORTH.intValue(), //
 						Arrays.asList(new String[] { //
-						"63", // "111486", // Downtown Exchange Bay A <=
-								"45", // "111296", // !=
-								"36", // "111278", // != Northbound Fitzgerald at 26th St <=
-								"115", // "111337", // !=
-								"119", // "110270", // ==
-								"120", // "110526", // Comox Valley Sports Centre
+						Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A <=
+								Stops.ALL_STOPS.get("111296"), // !=
+								Stops.ALL_STOPS.get("111278"), // != Northbound Fitzgerald at 26th St <=
+								Stops.ALL_STOPS.get("111337"), // !=
+								Stops.ALL_STOPS.get("110270"), // ==
+								Stops.ALL_STOPS.get("110526"), // Comox Valley Sports Centre
 						})) //
 				.addTripSort(MDirectionType.SOUTH.intValue(), //
 						Arrays.asList(new String[] { //
-						"120", // "110526", // Comox Valley Sports Centre (NB)
-								"19", // "111380", // ++
-								"63", // "111486", // Downtown Exchange Bay A
+						Stops.ALL_STOPS.get("110526"), // Comox Valley Sports Centre (NB)
+								Stops.ALL_STOPS.get("111380"), // ++
+								Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(6L, new RouteTripSpec(6L, //
@@ -199,15 +199,15 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						"63", // "111486", // Downtown Exchange Bay A
-								"125", // "111385", // ++ Sitka at E 10th St (SB)
-								"133", // "111299", // NIC Campus Bay C (NB)
+						Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111385"), // ++ Sitka at E 10th St (SB)
+								Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
 						})) //
 				.addTripSort(COUNTERCLOCKWISE_1, //
 						Arrays.asList(new String[] { //
-						"133", // "111299", // NIC Campus Bay C (NB)
-								"140", // "111463", // ++ (-DCOM-)McLauchlin at Dingwall (SB)
-								"63", // "111486", // Downtown Exchange Bay A
+						Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
+								Stops.ALL_STOPS.get("111463"), // ++ McLauchlin at Dingwall (SB)
+								Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(13L, new RouteTripSpec(13L, //
@@ -215,15 +215,15 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						"63", // "111486", // Downtown Exchange Bay A
-								"133", // "111299", // ++ NIC Campus Bay C (NB)
-								"237", // "110448", // Merville Rd Farside Island Hwy (WB)
+						Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111299"), // ++ NIC Campus Bay C (NB)
+								Stops.ALL_STOPS.get("110448"), // Merville Rd Farside Island Hwy (WB)
 						})) //
 				.addTripSort(COUNTERCLOCKWISE_1, //
 						Arrays.asList(new String[] { //
-						"237", // "110448", // Merville Rd Farside Island Hwy (WB)
-								"19", // "111380", // ++ Old Island at Puntledge (SB)
-								"63", // "111486", // Downtown Exchange Bay A
+						Stops.ALL_STOPS.get("110448"), // Merville Rd Farside Island Hwy (WB)
+								Stops.ALL_STOPS.get("111380"), // ++ Old Island at Puntledge (SB)
+								Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(99L, new RouteTripSpec(99L, //
@@ -231,17 +231,17 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") // PM
 				.addTripSort(CLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						"63", // "111486", // Downtown Exchange Bay A
-								"135", // "111390", // ++ Mission at Walbran (WB)
-								"220", // "111492", // Vanier 2990 block (EB)
+						Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111390"), // ++ Mission at Walbran (WB)
+								Stops.ALL_STOPS.get("111492"), // Vanier 2990 block (EB)
 						})) //
 				.addTripSort(COUNTERCLOCKWISE_1, //
 						Arrays.asList(new String[] { //
-						"220", // "111492", // == Vanier 2990 block (EB)
-								"135", // "111390", // != Mission at Walbran (WB)
-								"18", // "111379", // != Ryan at Puntledge (WB)
-								"19", // "111380", // == Old Island at Puntledge (SB)
-								"63", // "111486", // Downtown Exchange Bay A
+						Stops.ALL_STOPS.get("111492"), // == Vanier 2990 block (EB)
+								Stops.ALL_STOPS.get("111390"), // != Mission at Walbran (WB)
+								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge (WB)
+								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
+								Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
