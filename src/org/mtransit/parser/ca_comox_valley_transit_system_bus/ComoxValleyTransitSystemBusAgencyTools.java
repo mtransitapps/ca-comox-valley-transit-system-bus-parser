@@ -175,7 +175,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.SOUTH, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(StrategicMappingCommons.NORTH, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A <=
+						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A <=
 								Stops.ALL_STOPS.get("111296"), // !=
 								Stops.ALL_STOPS.get("111278"), // != Northbound Fitzgerald at 26th St <=
 								Stops.ALL_STOPS.get("111337"), // !=
@@ -186,7 +186,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						Stops.ALL_STOPS.get("110526"), // Comox Valley Sports Centre (NB)
 								Stops.ALL_STOPS.get("111380"), // ++
-								Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(6L, new RouteTripSpec(6L, //
@@ -194,7 +194,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
 								Stops.ALL_STOPS.get("111385"), // ++ Sitka at E 10th St (SB)
 								Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
 						})) //
@@ -202,7 +202,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
 								Stops.ALL_STOPS.get("111463"), // ++ McLauchlin at Dingwall (SB)
-								Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(13L, new RouteTripSpec(13L, //
@@ -210,7 +210,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
 								Stops.ALL_STOPS.get("111299"), // ++ NIC Campus Bay C (NB)
 								Stops.ALL_STOPS.get("110448"), // Merville Rd Farside Island Hwy (WB)
 						})) //
@@ -218,7 +218,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						Stops.ALL_STOPS.get("110448"), // Merville Rd Farside Island Hwy (WB)
 								Stops.ALL_STOPS.get("111380"), // ++ Old Island at Puntledge (SB)
-								Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(99L, new RouteTripSpec(99L, //
@@ -226,7 +226,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "Downtown") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
 								Stops.ALL_STOPS.get("111390"), // ++ Mission at Walbran (WB)
 								Stops.ALL_STOPS.get("111492"), // Vanier 2990 block (EB)
 						})) //
@@ -236,7 +236,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.ALL_STOPS.get("111390"), // != Mission at Walbran (WB)
 								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge (WB)
 								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
-								Stops.ALL_STOPS.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
@@ -288,6 +288,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		} else if (mRoute.getId() == 2L) {
 			if (gTrip.getDirectionId() == 0) { // Anfield Ctr - NORTH
 				if ("Anfield Centre".equalsIgnoreCase(gTrip.getTripHeadsign()) //
+						|| "To Downtown".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "Driftwood Mall to 4 Comox Mall".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
 					return;
@@ -474,7 +475,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^[\\d]+[\\S]*)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern ENDS_WITH_VIA = Pattern.compile("( via .*$)", Pattern.CASE_INSENSITIVE);
-	private static final Pattern STARTS_WITH_TO = Pattern.compile("(^.* to )", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_TO = Pattern.compile("(^.*( )?to )", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern DOWNTOWN_ = Pattern.compile("((^|\\W){1}(downtwon)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String DOWNTOWN_REPLACEMENT = "$2" + "Downtown" + "$4";
