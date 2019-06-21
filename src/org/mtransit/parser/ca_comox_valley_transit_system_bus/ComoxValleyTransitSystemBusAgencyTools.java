@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,13 +46,58 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	private HashSet<String> serviceIds;
 
+	private boolean isNext = false;
+
 	@Override
 	public void start(String[] args) {
 		System.out.printf("\nGenerating Comox Valley Transit System bus data...");
 		long start = System.currentTimeMillis();
+		this.isNext = "next_".equalsIgnoreCase(args[2]);
+		if (isNext) {
+			setupNext();
+		}
 		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
 		System.out.printf("\nGenerating Comox Valley Transit System bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+	}
+
+	private void setupNext() {
+		ALL_ROUTE_TRIPS2.put(6L, new RouteTripSpec(6L, //
+				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
+				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
+				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
+						Arrays.asList(new String[] { //
+						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // != Downtown Exchange Bay A <=
+								Stops.ALL_STOPS.get("111297"), // != Ryan at Puntledge
+								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge <=
+								Stops.ALL_STOPS.get("111298"), // == Ryan 1140 block
+								Stops.ALL_STOPS.get("111385"), // ++ Sitka at E 10th St (SB)
+								Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
+						})) //
+				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_1, //
+						Arrays.asList(new String[] { //
+						Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
+								Stops.ALL_STOPS.get("111463"), // ++ McLauchlin at Dingwall (SB)
+								Stops.ALL_STOPS.get("111379"), // == Ryan at Puntledge =>
+								Stops.ALL_STOPS.get("111380"), // != Old Island at Puntledge
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A =>
+						})) //
+				.compileBothTripSort());
+		ALL_ROUTE_TRIPS2.put(99L, new RouteTripSpec(99L, //
+				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "Schools", // AM
+				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "Downtown") // PM
+				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
+						Arrays.asList(new String[] { //
+						/* no stops */
+						})) //
+				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE, //
+						Arrays.asList(new String[] { //
+						Stops.ALL_STOPS.get("103874"), // E Ryan at Little River
+								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge (WB)
+								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
+						})) //
+				.compileBothTripSort());
 	}
 
 	@Override
@@ -112,9 +158,42 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return MAgency.ROUTE_TYPE_BUS;
 	}
 
+	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
+
 	@Override
 	public long getRouteId(GRoute gRoute) {
-		return Long.parseLong(gRoute.getRouteShortName()); // use route short name as route ID
+		if (Utils.isDigitsOnly(gRoute.getRouteShortName())) {
+			return Long.parseLong(gRoute.getRouteShortName()); // use route short name as route ID
+		}
+		Matcher matcher = DIGITS.matcher(gRoute.getRouteShortName());
+		if (matcher.find()) {
+			return Long.parseLong(matcher.group()); // merge routes
+		}
+		System.out.println("Unexpected route ID " + gRoute);
+		System.exit(-1);
+		return -1l;
+	}
+
+	@Override
+	public String getRouteShortName(GRoute gRoute) {
+		Matcher matcher = DIGITS.matcher(gRoute.getRouteShortName());
+		if (matcher.find()) {
+			return matcher.group(); // merge routes
+		}
+		System.out.println("Unexpected route short name " + gRoute);
+		System.exit(-1);
+		return null;
+	}
+
+	@Override
+	public boolean mergeRouteLongName(MRoute mRoute, MRoute mRouteToMerge) {
+		if (mRoute.getId() == 1L) {
+			mRoute.setLongName("Comox Mall / Anfield Ctr Via N.I.C.");
+			return true;
+		}
+		System.out.printf("\nUnexpected routes long name to merge: %s & %s!\n", mRoute, mRouteToMerge);
+		System.exit(-1);
+		return false;
 	}
 
 	@Override
@@ -272,6 +351,33 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			return; // split
 		}
 		if (mRoute.getId() == 1L) {
+			if (!"1".equalsIgnoreCase(gTrip.getRouteId())) {
+				if ("16".equalsIgnoreCase(gTrip.getRouteId())) { // Comox Mall - EAST
+					if (gTrip.getDirectionId() == 1) {
+						if ("Comox Mall Via N.I.C.".equalsIgnoreCase(gTrip.getTripHeadsign())) {
+							mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.EAST);
+							return;
+						}
+					} else if (gTrip.getDirectionId() == 0) {
+						if ("Downtown".equalsIgnoreCase(gTrip.getTripHeadsign())) {
+							mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.EAST);
+							return;
+						}
+					}
+				} else if ("17".equalsIgnoreCase(gTrip.getRouteId())) { // Anfield Ctr - WEST
+					if (gTrip.getDirectionId() == 1) {
+						if ("Anfield Centre Via Downtown".equalsIgnoreCase(gTrip.getTripHeadsign())) {
+							mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.WEST);
+							return;
+						}
+					} else if (gTrip.getDirectionId() == 0) {
+						if ("Downtown".equalsIgnoreCase(gTrip.getTripHeadsign())) {
+							mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.WEST);
+							return;
+						}
+					}
+				}
+			}
 			if (gTrip.getDirectionId() == 1) { // Comox Mall - EAST
 				if ("Comox Mall Via N.I.C.".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "Downtown".equalsIgnoreCase(gTrip.getTripHeadsign())) {
@@ -367,12 +473,14 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 12L) {
 			if (gTrip.getDirectionId() == 0) { // Oyster River - NORTH
-				if ("Oyster River Via Vanier".equalsIgnoreCase(gTrip.getTripHeadsign())) {
+				if ("North Valley Connector".equalsIgnoreCase(gTrip.getTripHeadsign()) // <>
+						|| "Oyster River Via Vanier".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 1) { // Downtown Courtenay - SOUTH
-				if ("Downtown Courtenay Via N.I.C.".equalsIgnoreCase(gTrip.getTripHeadsign()) //
+				if ("North Valley Connector".equalsIgnoreCase(gTrip.getTripHeadsign()) // <>
+						|| "Downtown Courtenay Via N.I.C.".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "Downtown Courtenay Via Vanier".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.SOUTH);
 					return;
@@ -460,6 +568,21 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					"Airport" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Airport", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 12L) {
+			if (Arrays.asList( //
+					"North Vly Connector", // <>
+					"Oyster River" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Oyster River", mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					"North Vly Connector", // <>
+					"Downtown Courtenay" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Downtown Courtenay", mTrip.getHeadsignId());
 				return true;
 			}
 		}
