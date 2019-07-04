@@ -62,42 +62,6 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private void setupNext() {
-		ALL_ROUTE_TRIPS2.put(6L, new RouteTripSpec(6L, //
-				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
-				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
-				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // != Downtown Exchange Bay A <=
-								Stops.ALL_STOPS.get("111297"), // != Ryan at Puntledge
-								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge <=
-								Stops.ALL_STOPS.get("111298"), // == Ryan 1140 block
-								Stops.ALL_STOPS.get("111385"), // ++ Sitka at E 10th St (SB)
-								Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
-						})) //
-				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_1, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
-								Stops.ALL_STOPS.get("111463"), // ++ McLauchlin at Dingwall (SB)
-								Stops.ALL_STOPS.get("111379"), // == Ryan at Puntledge =>
-								Stops.ALL_STOPS.get("111380"), // != Old Island at Puntledge
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A =>
-						})) //
-				.compileBothTripSort());
-		ALL_ROUTE_TRIPS2.put(99L, new RouteTripSpec(99L, //
-				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "Schools", // AM
-				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "Downtown") // PM
-				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
-						Arrays.asList(new String[] { //
-						/* no stops */
-						})) //
-				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("103874"), // E Ryan at Little River
-								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge (WB)
-								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
-						})) //
-				.compileBothTripSort());
 	}
 
 	@Override
@@ -273,7 +237,10 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
+						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // != Downtown Exchange Bay A <=
+								Stops.ALL_STOPS.get("111297"), // != Ryan at Puntledge
+								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge <=
+								Stops.ALL_STOPS.get("111298"), // == Ryan 1140 block
 								Stops.ALL_STOPS.get("111385"), // ++ Sitka at E 10th St (SB)
 								Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
 						})) //
@@ -281,7 +248,9 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 						Arrays.asList(new String[] { //
 						Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
 								Stops.ALL_STOPS.get("111463"), // ++ McLauchlin at Dingwall (SB)
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111379"), // == Ryan at Puntledge =>
+								Stops.ALL_STOPS.get("111380"), // != Old Island at Puntledge
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A =>
 						})) //
 				.compileBothTripSort());
 		map2.put(13L, new RouteTripSpec(13L, //
@@ -305,14 +274,11 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "Downtown") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
-								Stops.ALL_STOPS.get("111390"), // ++ Mission at Walbran (WB)
-								Stops.ALL_STOPS.get("111492"), // Vanier 2990 block (EB)
+						/* no stops */
 						})) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111492"), // == Vanier 2990 block (EB)
-								Stops.ALL_STOPS.get("111390"), // != Mission at Walbran (WB)
+						Stops.ALL_STOPS.get("103874"), // E Ryan at Little River
 								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge (WB)
 								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
 								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
