@@ -270,18 +270,39 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 						})) //
 				.compileBothTripSort());
 		map2.put(99L, new RouteTripSpec(99L, //
-				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "Schools", // AM
-				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "Downtown") // PM
+				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "AM", // AM
+				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "PM") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
 						Arrays.asList(new String[] { //
-						/* no stops */
+						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // xx <> Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111381"), // != != 5th St 70 block
+								Stops.ALL_STOPS.get("111375"), // != Lerwick at Valley View
+								Stops.ALL_STOPS.get("111479"), // xx <> Isfield Secondary
+								Stops.ALL_STOPS.get("111478"), // xx Lerwick at Malahat
+								Stops.ALL_STOPS.get("111377"), // xx Lerwick 470 block
+								Stops.ALL_STOPS.get("110248"), // != Lerwick FS Waters Pl
+								Stops.ALL_STOPS.get("111390"), // <> Mission at Walbran
+								"136", "137", "138", "139", "140", "141", "142", "121", "122", "122", "123", "124", "125", "126", "127", "128", "129", // ++
+								Stops.ALL_STOPS.get("111481"), // != Valley View at Lerwick
+								Stops.ALL_STOPS.get("111479"), // xx <> Isfield Secondary
+								Stops.ALL_STOPS.get("111478"), // xx Lerwick at Malahat
+								Stops.ALL_STOPS.get("111377"), // xx Lerwick 470 block
+								Stops.ALL_STOPS.get("111492"), // != <> Vanier 2990 block
+								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // xx <> Downtown Exchange Bay A
 						})) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("103874"), // E Ryan at Little River
+						Stops.ALL_STOPS.get("111492"), // <> Vanier 2990 block
+								Stops.ALL_STOPS.get("111390"), // <> Mission at Walbran
+								"136", "137", "138", "139", "140", "141", "142", "121", "122", "122", "123", "124", "125", "126", "127", "128", "129", // ++
+								Stops.ALL_STOPS.get("111481"), // != Valley View at Lerwick
+								Stops.ALL_STOPS.get("111479"), // xx <> Isfield Secondary
+								Stops.ALL_STOPS.get("111301"), // != Lerwick at Valley View
+								Stops.ALL_STOPS.get("103874"), // E Ryan at Little River
 								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge (WB)
 								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
+								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // == Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
