@@ -282,26 +282,59 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.ALL_STOPS.get("111377"), // xx Lerwick 470 block
 								Stops.ALL_STOPS.get("110248"), // != Lerwick FS Waters Pl
 								Stops.ALL_STOPS.get("111390"), // <> Mission at Walbran
-								"136", "137", "138", "139", "140", "141", "142", "121", "122", "122", "123", "124", "125", "126", "127", "128", "129", // ++
-								Stops.ALL_STOPS.get("111481"), // != Valley View at Lerwick
-								Stops.ALL_STOPS.get("111479"), // xx <> Isfield Secondary
-								Stops.ALL_STOPS.get("111478"), // xx Lerwick at Malahat
+								Stops.ALL_STOPS.get("111391"), // <> ?? Mission at Shetland
+								Stops.ALL_STOPS.get("111392"), // <> ?? Muir at Anna
+								Stops.ALL_STOPS.get("111393"), // <> ?? Muir at Cruickshank
+								Stops.ALL_STOPS.get("111394"), // <> ?? McLauchlin at MacIntyre
+								Stops.ALL_STOPS.get("111463"), // <> ?? McLauchlin at Dingwall
+								Stops.ALL_STOPS.get("111395"), // <> ?? McLauchlin at Panorama
+								Stops.ALL_STOPS.get("111396"), // <> ?? Centennial at Back
+								Stops.ALL_STOPS.get("111384"), // <> ?? Back at Tunner
+								Stops.ALL_STOPS.get("111456"), // <> ?? Back at E 6th St
+								Stops.ALL_STOPS.get("111473"), // <> ?? Back at E 10th St
+								Stops.ALL_STOPS.get("111455"), // <> ?? E 10th St at Glen Urquhart
+								Stops.ALL_STOPS.get("111385"), // <> ?? Sitka at E 10th St
+								Stops.ALL_STOPS.get("111386"), // <> ?? Sitka at Malahat
+								Stops.ALL_STOPS.get("111387"), // <> ?? Thorpe at Malahat
+								Stops.ALL_STOPS.get("111388"), // <> ?? Thorpe at Griffin
+								Stops.ALL_STOPS.get("111389"), // <> ?? Valley View at Partridge
+								Stops.ALL_STOPS.get("111481"), // <> Valley View at Lerwick
+								Stops.ALL_STOPS.get("111479"), // <> xx Isfield Secondary
+								Stops.ALL_STOPS.get("111478"), // != xx Lerwick at Malahat
 								Stops.ALL_STOPS.get("111377"), // xx Lerwick 470 block
 								Stops.ALL_STOPS.get("111492"), // != <> Vanier 2990 block
 								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
+								Stops.ALL_STOPS.get("111489"), // == ++ Anderton at 3rd St
 								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // xx <> Downtown Exchange Bay A
 						})) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE, //
 						Arrays.asList(new String[] { //
 						Stops.ALL_STOPS.get("111492"), // <> Vanier 2990 block
 								Stops.ALL_STOPS.get("111390"), // <> Mission at Walbran
-								"136", "137", "138", "139", "140", "141", "142", "121", "122", "122", "123", "124", "125", "126", "127", "128", "129", // ++
-								Stops.ALL_STOPS.get("111481"), // != Valley View at Lerwick
-								Stops.ALL_STOPS.get("111479"), // xx <> Isfield Secondary
+								Stops.ALL_STOPS.get("111390"), // <> Mission at Walbran
+								Stops.ALL_STOPS.get("111391"), // <> ?? Mission at Shetland
+								Stops.ALL_STOPS.get("111392"), // <> ?? Muir at Anna
+								Stops.ALL_STOPS.get("111393"), // <> ?? Muir at Cruickshank
+								Stops.ALL_STOPS.get("111394"), // <> ?? McLauchlin at MacIntyre
+								Stops.ALL_STOPS.get("111463"), // <> ?? McLauchlin at Dingwall
+								Stops.ALL_STOPS.get("111395"), // <> ?? McLauchlin at Panorama
+								Stops.ALL_STOPS.get("111396"), // <> ?? Centennial at Back
+								Stops.ALL_STOPS.get("111384"), // <> ?? Back at Tunner
+								Stops.ALL_STOPS.get("111456"), // <> ?? Back at E 6th St
+								Stops.ALL_STOPS.get("111473"), // <> ?? Back at E 10th St
+								Stops.ALL_STOPS.get("111455"), // <> ?? E 10th St at Glen Urquhart
+								Stops.ALL_STOPS.get("111385"), // <> ?? Sitka at E 10th St
+								Stops.ALL_STOPS.get("111386"), // <> ?? Sitka at Malahat
+								Stops.ALL_STOPS.get("111387"), // <> ?? Thorpe at Malahat
+								Stops.ALL_STOPS.get("111388"), // <> ?? Thorpe at Griffin
+								Stops.ALL_STOPS.get("111389"), // <> ?? Valley View at Partridge
+								Stops.ALL_STOPS.get("111481"), // <> Valley View at Lerwick
+								Stops.ALL_STOPS.get("111479"), // <> xx Isfield Secondary
 								Stops.ALL_STOPS.get("111301"), // != Lerwick at Valley View
 								Stops.ALL_STOPS.get("103874"), // E Ryan at Little River
 								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge (WB)
 								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
+								Stops.ALL_STOPS.get("111489"), // == ++ Anderton at 3rd St
 								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // == Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
