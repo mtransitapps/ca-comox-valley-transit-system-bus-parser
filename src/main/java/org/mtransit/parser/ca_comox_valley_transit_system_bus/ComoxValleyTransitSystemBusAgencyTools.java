@@ -218,18 +218,18 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.SOUTH, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(StrategicMappingCommons.NORTH, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A <=
-								Stops.ALL_STOPS.get("111296"), // !=
-								Stops.ALL_STOPS.get("111278"), // != Northbound Fitzgerald at 26th St <=
-								Stops.ALL_STOPS.get("111337"), // !=
-								Stops.ALL_STOPS.get("110270"), // ==
-								Stops.ALL_STOPS.get("110526"), // Comox Valley Sports Centre
+						Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A <=
+								Stops.getALL_STOPS().get("111296"), // !=
+								Stops.getALL_STOPS().get("111278"), // != Northbound Fitzgerald at 26th St <=
+								Stops.getALL_STOPS().get("111337"), // !=
+								Stops.getALL_STOPS().get("110270"), // ==
+								Stops.getALL_STOPS().get("110526"), // Comox Valley Sports Centre
 						})) //
 				.addTripSort(StrategicMappingCommons.SOUTH, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("110526"), // Comox Valley Sports Centre (NB)
-								Stops.ALL_STOPS.get("111380"), // ++
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
+						Stops.getALL_STOPS().get("110526"), // Comox Valley Sports Centre (NB)
+								Stops.getALL_STOPS().get("111380"), // ++
+								Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(6L, new RouteTripSpec(6L, //
@@ -237,20 +237,20 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // != Downtown Exchange Bay A <=
-								Stops.ALL_STOPS.get("111297"), // != Ryan at Puntledge
-								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge <=
-								Stops.ALL_STOPS.get("111298"), // == Ryan 1140 block
-								Stops.ALL_STOPS.get("111385"), // ++ Sitka at E 10th St (SB)
-								Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
+						Stops.getALL_STOPS().get("111486"), // != Downtown Exchange Bay A <=
+								Stops.getALL_STOPS().get("111297"), // != Ryan at Puntledge
+								Stops.getALL_STOPS().get("111379"), // != Ryan at Puntledge <=
+								Stops.getALL_STOPS().get("111298"), // == Ryan 1140 block
+								Stops.getALL_STOPS().get("111385"), // ++ Sitka at E 10th St (SB)
+								Stops.getALL_STOPS().get("111299"), // NIC Campus Bay C (NB)
 						})) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_1, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111299"), // NIC Campus Bay C (NB)
-								Stops.ALL_STOPS.get("111463"), // ++ McLauchlin at Dingwall (SB)
-								Stops.ALL_STOPS.get("111379"), // == Ryan at Puntledge =>
-								Stops.ALL_STOPS.get("111380"), // != Old Island at Puntledge
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A =>
+						Stops.getALL_STOPS().get("111299"), // NIC Campus Bay C (NB)
+								Stops.getALL_STOPS().get("111463"), // ++ McLauchlin at Dingwall (SB)
+								Stops.getALL_STOPS().get("111379"), // == Ryan at Puntledge =>
+								Stops.getALL_STOPS().get("111380"), // != Old Island at Puntledge
+								Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A =>
 						})) //
 				.compileBothTripSort());
 		map2.put(13L, new RouteTripSpec(13L, //
@@ -258,15 +258,15 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
-								Stops.ALL_STOPS.get("111299"), // ++ NIC Campus Bay C (NB)
-								Stops.ALL_STOPS.get("110448"), // Merville Rd Farside Island Hwy (WB)
+						Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A
+								Stops.getALL_STOPS().get("111299"), // ++ NIC Campus Bay C (NB)
+								Stops.getALL_STOPS().get("110448"), // Merville Rd Farside Island Hwy (WB)
 						})) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_1, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("110448"), // Merville Rd Farside Island Hwy (WB)
-								Stops.ALL_STOPS.get("111380"), // ++ Old Island at Puntledge (SB)
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // Downtown Exchange Bay A
+						Stops.getALL_STOPS().get("110448"), // Merville Rd Farside Island Hwy (WB)
+								Stops.getALL_STOPS().get("111380"), // ++ Old Island at Puntledge (SB)
+								Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		map2.put(99L, new RouteTripSpec(99L, //
@@ -274,68 +274,68 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "PM") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // xx <> Downtown Exchange Bay A
-								Stops.ALL_STOPS.get("111381"), // != != 5th St 70 block
-								Stops.ALL_STOPS.get("111375"), // != Lerwick at Valley View
-								Stops.ALL_STOPS.get("111479"), // xx <> Isfield Secondary
-								Stops.ALL_STOPS.get("111478"), // xx Lerwick at Malahat
-								Stops.ALL_STOPS.get("111377"), // xx Lerwick 470 block
-								Stops.ALL_STOPS.get("110248"), // != Lerwick FS Waters Pl
-								Stops.ALL_STOPS.get("111390"), // <> Mission at Walbran
-								Stops.ALL_STOPS.get("111391"), // <> ?? Mission at Shetland
-								Stops.ALL_STOPS.get("111392"), // <> ?? Muir at Anna
-								Stops.ALL_STOPS.get("111393"), // <> ?? Muir at Cruickshank
-								Stops.ALL_STOPS.get("111394"), // <> ?? McLauchlin at MacIntyre
-								Stops.ALL_STOPS.get("111463"), // <> ?? McLauchlin at Dingwall
-								Stops.ALL_STOPS.get("111395"), // <> ?? McLauchlin at Panorama
-								Stops.ALL_STOPS.get("111396"), // <> ?? Centennial at Back
-								Stops.ALL_STOPS.get("111384"), // <> ?? Back at Tunner
-								Stops.ALL_STOPS.get("111456"), // <> ?? Back at E 6th St
-								Stops.ALL_STOPS.get("111473"), // <> ?? Back at E 10th St
-								Stops.ALL_STOPS.get("111455"), // <> ?? E 10th St at Glen Urquhart
-								Stops.ALL_STOPS.get("111385"), // <> ?? Sitka at E 10th St
-								Stops.ALL_STOPS.get("111386"), // <> ?? Sitka at Malahat
-								Stops.ALL_STOPS.get("111387"), // <> ?? Thorpe at Malahat
-								Stops.ALL_STOPS.get("111388"), // <> ?? Thorpe at Griffin
-								Stops.ALL_STOPS.get("111389"), // <> ?? Valley View at Partridge
-								Stops.ALL_STOPS.get("111481"), // <> Valley View at Lerwick
-								Stops.ALL_STOPS.get("111479"), // <> xx Isfield Secondary
-								Stops.ALL_STOPS.get("111478"), // != xx Lerwick at Malahat
-								Stops.ALL_STOPS.get("111377"), // xx Lerwick 470 block
-								Stops.ALL_STOPS.get("111492"), // != <> Vanier 2990 block
-								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
-								Stops.ALL_STOPS.get("111489"), // == ++ Anderton at 3rd St
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // xx <> Downtown Exchange Bay A
+						Stops.getALL_STOPS().get("111486"), // xx <> Downtown Exchange Bay A
+								Stops.getALL_STOPS().get("111381"), // != != 5th St 70 block
+								Stops.getALL_STOPS().get("111375"), // != Lerwick at Valley View
+								Stops.getALL_STOPS().get("111479"), // xx <> Isfield Secondary
+								Stops.getALL_STOPS().get("111478"), // xx Lerwick at Malahat
+								Stops.getALL_STOPS().get("111377"), // xx Lerwick 470 block
+								Stops.getALL_STOPS().get("110248"), // != Lerwick FS Waters Pl
+								Stops.getALL_STOPS().get("111390"), // <> Mission at Walbran
+								Stops.getALL_STOPS().get("111391"), // <> ?? Mission at Shetland
+								Stops.getALL_STOPS().get("111392"), // <> ?? Muir at Anna
+								Stops.getALL_STOPS().get("111393"), // <> ?? Muir at Cruickshank
+								Stops.getALL_STOPS().get("111394"), // <> ?? McLauchlin at MacIntyre
+								Stops.getALL_STOPS().get("111463"), // <> ?? McLauchlin at Dingwall
+								Stops.getALL_STOPS().get("111395"), // <> ?? McLauchlin at Panorama
+								Stops.getALL_STOPS().get("111396"), // <> ?? Centennial at Back
+								Stops.getALL_STOPS().get("111384"), // <> ?? Back at Tunner
+								Stops.getALL_STOPS().get("111456"), // <> ?? Back at E 6th St
+								Stops.getALL_STOPS().get("111473"), // <> ?? Back at E 10th St
+								Stops.getALL_STOPS().get("111455"), // <> ?? E 10th St at Glen Urquhart
+								Stops.getALL_STOPS().get("111385"), // <> ?? Sitka at E 10th St
+								Stops.getALL_STOPS().get("111386"), // <> ?? Sitka at Malahat
+								Stops.getALL_STOPS().get("111387"), // <> ?? Thorpe at Malahat
+								Stops.getALL_STOPS().get("111388"), // <> ?? Thorpe at Griffin
+								Stops.getALL_STOPS().get("111389"), // <> ?? Valley View at Partridge
+								Stops.getALL_STOPS().get("111481"), // <> Valley View at Lerwick
+								Stops.getALL_STOPS().get("111479"), // <> xx Isfield Secondary
+								Stops.getALL_STOPS().get("111478"), // != xx Lerwick at Malahat
+								Stops.getALL_STOPS().get("111377"), // xx Lerwick 470 block
+								Stops.getALL_STOPS().get("111492"), // != <> Vanier 2990 block
+								Stops.getALL_STOPS().get("111380"), // == Old Island at Puntledge (SB)
+								Stops.getALL_STOPS().get("111489"), // == ++ Anderton at 3rd St
+								Stops.getALL_STOPS().get("111486"), // xx <> Downtown Exchange Bay A
 						})) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE, //
 						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("111492"), // <> Vanier 2990 block
-								Stops.ALL_STOPS.get("111390"), // <> Mission at Walbran
-								Stops.ALL_STOPS.get("111390"), // <> Mission at Walbran
-								Stops.ALL_STOPS.get("111391"), // <> ?? Mission at Shetland
-								Stops.ALL_STOPS.get("111392"), // <> ?? Muir at Anna
-								Stops.ALL_STOPS.get("111393"), // <> ?? Muir at Cruickshank
-								Stops.ALL_STOPS.get("111394"), // <> ?? McLauchlin at MacIntyre
-								Stops.ALL_STOPS.get("111463"), // <> ?? McLauchlin at Dingwall
-								Stops.ALL_STOPS.get("111395"), // <> ?? McLauchlin at Panorama
-								Stops.ALL_STOPS.get("111396"), // <> ?? Centennial at Back
-								Stops.ALL_STOPS.get("111384"), // <> ?? Back at Tunner
-								Stops.ALL_STOPS.get("111456"), // <> ?? Back at E 6th St
-								Stops.ALL_STOPS.get("111473"), // <> ?? Back at E 10th St
-								Stops.ALL_STOPS.get("111455"), // <> ?? E 10th St at Glen Urquhart
-								Stops.ALL_STOPS.get("111385"), // <> ?? Sitka at E 10th St
-								Stops.ALL_STOPS.get("111386"), // <> ?? Sitka at Malahat
-								Stops.ALL_STOPS.get("111387"), // <> ?? Thorpe at Malahat
-								Stops.ALL_STOPS.get("111388"), // <> ?? Thorpe at Griffin
-								Stops.ALL_STOPS.get("111389"), // <> ?? Valley View at Partridge
-								Stops.ALL_STOPS.get("111481"), // <> Valley View at Lerwick
-								Stops.ALL_STOPS.get("111479"), // <> xx Isfield Secondary
-								Stops.ALL_STOPS.get("111301"), // != Lerwick at Valley View
-								Stops.ALL_STOPS.get("103874"), // E Ryan at Little River
-								Stops.ALL_STOPS.get("111379"), // != Ryan at Puntledge (WB)
-								Stops.ALL_STOPS.get("111380"), // == Old Island at Puntledge (SB)
-								Stops.ALL_STOPS.get("111489"), // == ++ Anderton at 3rd St
-								Stops.ALL_STOPS.get("111486"), Stops2.ALL_STOPS2.get("111486"), // == Downtown Exchange Bay A
+						Stops.getALL_STOPS().get("111492"), // <> Vanier 2990 block
+								Stops.getALL_STOPS().get("111390"), // <> Mission at Walbran
+								Stops.getALL_STOPS().get("111390"), // <> Mission at Walbran
+								Stops.getALL_STOPS().get("111391"), // <> ?? Mission at Shetland
+								Stops.getALL_STOPS().get("111392"), // <> ?? Muir at Anna
+								Stops.getALL_STOPS().get("111393"), // <> ?? Muir at Cruickshank
+								Stops.getALL_STOPS().get("111394"), // <> ?? McLauchlin at MacIntyre
+								Stops.getALL_STOPS().get("111463"), // <> ?? McLauchlin at Dingwall
+								Stops.getALL_STOPS().get("111395"), // <> ?? McLauchlin at Panorama
+								Stops.getALL_STOPS().get("111396"), // <> ?? Centennial at Back
+								Stops.getALL_STOPS().get("111384"), // <> ?? Back at Tunner
+								Stops.getALL_STOPS().get("111456"), // <> ?? Back at E 6th St
+								Stops.getALL_STOPS().get("111473"), // <> ?? Back at E 10th St
+								Stops.getALL_STOPS().get("111455"), // <> ?? E 10th St at Glen Urquhart
+								Stops.getALL_STOPS().get("111385"), // <> ?? Sitka at E 10th St
+								Stops.getALL_STOPS().get("111386"), // <> ?? Sitka at Malahat
+								Stops.getALL_STOPS().get("111387"), // <> ?? Thorpe at Malahat
+								Stops.getALL_STOPS().get("111388"), // <> ?? Thorpe at Griffin
+								Stops.getALL_STOPS().get("111389"), // <> ?? Valley View at Partridge
+								Stops.getALL_STOPS().get("111481"), // <> Valley View at Lerwick
+								Stops.getALL_STOPS().get("111479"), // <> xx Isfield Secondary
+								Stops.getALL_STOPS().get("111301"), // != Lerwick at Valley View
+								Stops.getALL_STOPS().get("103874"), // E Ryan at Little River
+								Stops.getALL_STOPS().get("111379"), // != Ryan at Puntledge (WB)
+								Stops.getALL_STOPS().get("111380"), // == Old Island at Puntledge (SB)
+								Stops.getALL_STOPS().get("111489"), // == ++ Anderton at 3rd St
+								Stops.getALL_STOPS().get("111486"), // == Downtown Exchange Bay A
 						})) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
