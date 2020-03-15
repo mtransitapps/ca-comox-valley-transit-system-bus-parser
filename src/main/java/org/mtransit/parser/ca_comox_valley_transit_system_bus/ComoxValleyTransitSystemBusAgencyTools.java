@@ -1,18 +1,10 @@
 package org.mtransit.parser.ca_comox_valley_transit_system_bus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.mtransit.commons.StrategicMappingCommons;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
+import org.mtransit.parser.MTLog;
 import org.mtransit.parser.Pair;
 import org.mtransit.parser.SplitUtils;
 import org.mtransit.parser.SplitUtils.RouteTripSpec;
@@ -28,6 +20,15 @@ import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 // https://bctransit.com/*/footer/open-data
 // https://bctransit.com/servlet/bctransit/data/GTFS - Comox Valley
@@ -46,11 +47,12 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	private HashSet<String> serviceIds;
 
+	@SuppressWarnings("FieldCanBeLocal")
 	private boolean isNext = false;
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("\nGenerating Comox Valley Transit System bus data...");
+		MTLog.log("Generating Comox Valley Transit System bus data...");
 		long start = System.currentTimeMillis();
 		this.isNext = "next_".equalsIgnoreCase(args[2]);
 		if (isNext) {
@@ -58,7 +60,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		}
 		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
-		System.out.printf("\nGenerating Comox Valley Transit System bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+		MTLog.log("Generating Comox Valley Transit System bus data... DONE in %s.", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
 	private void setupNext() {
@@ -73,7 +75,9 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
-		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null && !gCalendar.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
+		//noinspection ConstantConditions
+		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null  //
+				&& !gCalendar.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
 			return true;
 		}
 		if (this.serviceIds != null) {
@@ -84,7 +88,9 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeCalendarDate(GCalendarDate gCalendarDates) {
-		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null && !gCalendarDates.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
+		//noinspection ConstantConditions
+		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null
+				&& !gCalendarDates.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
 			return true;
 		}
 		if (this.serviceIds != null) {
@@ -108,7 +114,9 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeTrip(GTrip gTrip) {
-		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null && !gTrip.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
+		//noinspection ConstantConditions
+		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null
+				&& !gTrip.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
 			return true;
 		}
 		if (this.serviceIds != null) {
@@ -133,9 +141,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		if (matcher.find()) {
 			return Long.parseLong(matcher.group()); // merge routes
 		}
-		System.out.println("Unexpected route ID " + gRoute);
-		System.exit(-1);
-		return -1l;
+		MTLog.logFatal("Unexpected route ID %s!", gRoute);
+		return -1L;
 	}
 
 	@Override
@@ -144,8 +151,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		if (matcher.find()) {
 			return matcher.group(); // merge routes
 		}
-		System.out.println("Unexpected route short name " + gRoute);
-		System.exit(-1);
+		MTLog.logFatal("Unexpected route short name %s!", gRoute);
 		return null;
 	}
 
@@ -155,8 +161,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			mRoute.setLongName("Comox Mall / Anfield Ctr Via N.I.C.");
 			return true;
 		}
-		System.out.printf("\nUnexpected routes long name to merge: %s & %s!\n", mRoute, mRouteToMerge);
-		System.exit(-1);
+		MTLog.logFatal("Unexpected routes long name to merge: %s & %s!", mRoute, mRouteToMerge);
 		return false;
 	}
 
@@ -202,8 +207,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			case 99: return "00AA4F";
 			// @formatter:on
 			default:
-				System.out.printf("\n%s: Unexpected route color for %s!\n", gRoute.getRouteId(), gRoute);
-				System.exit(-1);
+				MTLog.logFatal("%s: Unexpected route color for %s!", gRoute.getRouteId(), gRoute);
 				return null;
 			}
 		}
@@ -211,70 +215,71 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
+
 	static {
-		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
+		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
 		map2.put(5L, new RouteTripSpec(5L, //
 				StrategicMappingCommons.NORTH, MTrip.HEADSIGN_TYPE_STRING, "Comox Valley Sports Ctr", //
 				StrategicMappingCommons.SOUTH, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(StrategicMappingCommons.NORTH, //
-						Arrays.asList(new String[] { //
-						Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A <=
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A <=
 								Stops.getALL_STOPS().get("111296"), // !=
 								Stops.getALL_STOPS().get("111278"), // != Northbound Fitzgerald at 26th St <=
 								Stops.getALL_STOPS().get("111337"), // !=
 								Stops.getALL_STOPS().get("110270"), // ==
-								Stops.getALL_STOPS().get("110526"), // Comox Valley Sports Centre
-						})) //
+								Stops.getALL_STOPS().get("110526") // Comox Valley Sports Centre
+						)) //
 				.addTripSort(StrategicMappingCommons.SOUTH, //
-						Arrays.asList(new String[] { //
-						Stops.getALL_STOPS().get("110526"), // Comox Valley Sports Centre (NB)
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("110526"), // Comox Valley Sports Centre (NB)
 								Stops.getALL_STOPS().get("111380"), // ++
-								Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A
-						})) //
+								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
+						)) //
 				.compileBothTripSort());
 		map2.put(6L, new RouteTripSpec(6L, //
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
-						Arrays.asList(new String[] { //
-						Stops.getALL_STOPS().get("111486"), // != Downtown Exchange Bay A <=
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("111486"), // != Downtown Exchange Bay A <=
 								Stops.getALL_STOPS().get("111297"), // != Ryan at Puntledge
 								Stops.getALL_STOPS().get("111379"), // != Ryan at Puntledge <=
 								Stops.getALL_STOPS().get("111298"), // == Ryan 1140 block
 								Stops.getALL_STOPS().get("111385"), // ++ Sitka at E 10th St (SB)
-								Stops.getALL_STOPS().get("111299"), // NIC Campus Bay C (NB)
-						})) //
+								Stops.getALL_STOPS().get("111299") // NIC Campus Bay C (NB)
+						)) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_1, //
-						Arrays.asList(new String[] { //
-						Stops.getALL_STOPS().get("111299"), // NIC Campus Bay C (NB)
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("111299"), // NIC Campus Bay C (NB)
 								Stops.getALL_STOPS().get("111463"), // ++ McLauchlin at Dingwall (SB)
 								Stops.getALL_STOPS().get("111379"), // == Ryan at Puntledge =>
 								Stops.getALL_STOPS().get("111380"), // != Old Island at Puntledge
-								Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A =>
-						})) //
+								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A =>
+						)) //
 				.compileBothTripSort());
 		map2.put(13L, new RouteTripSpec(13L, //
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "Merville", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
-						Arrays.asList(new String[] { //
-						Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A
-								Stops.getALL_STOPS().get("111299"), // ++ NIC Campus Bay C (NB)
-								Stops.getALL_STOPS().get("110448"), // Merville Rd Farside Island Hwy (WB)
-						})) //
-				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_1, //
-						Arrays.asList(new String[] { //
-						Stops.getALL_STOPS().get("110448"), // Merville Rd Farside Island Hwy (WB)
-								Stops.getALL_STOPS().get("111380"), // ++ Old Island at Puntledge (SB)
+						Arrays.asList(//
 								Stops.getALL_STOPS().get("111486"), // Downtown Exchange Bay A
-						})) //
+								Stops.getALL_STOPS().get("111299"), // ++ NIC Campus Bay C (NB)
+								Stops.getALL_STOPS().get("110448") // Merville Rd Farside Island Hwy (WB)
+						)) //
+				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_1, //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("110448"), // Merville Rd Farside Island Hwy (WB)
+								Stops.getALL_STOPS().get("111380"), // ++ Old Island at Puntledge (SB)
+								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
+						)) //
 				.compileBothTripSort());
 		map2.put(99L, new RouteTripSpec(99L, //
 				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "AM", // AM
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "PM") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
-						Arrays.asList(new String[] { //
-						Stops.getALL_STOPS().get("111486"), // xx <> Downtown Exchange Bay A
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("111486"), // xx <> Downtown Exchange Bay A
 								Stops.getALL_STOPS().get("111381"), // != != 5th St 70 block
 								Stops.getALL_STOPS().get("111375"), // != Lerwick at Valley View
 								Stops.getALL_STOPS().get("111479"), // xx <> Isfield Secondary
@@ -305,11 +310,11 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111492"), // != <> Vanier 2990 block
 								Stops.getALL_STOPS().get("111380"), // == Old Island at Puntledge (SB)
 								Stops.getALL_STOPS().get("111489"), // == ++ Anderton at 3rd St
-								Stops.getALL_STOPS().get("111486"), // xx <> Downtown Exchange Bay A
-						})) //
+								Stops.getALL_STOPS().get("111486") // xx <> Downtown Exchange Bay A
+						)) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE, //
-						Arrays.asList(new String[] { //
-						Stops.getALL_STOPS().get("111492"), // <> Vanier 2990 block
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("111492"), // <> Vanier 2990 block
 								Stops.getALL_STOPS().get("111390"), // <> Mission at Walbran
 								Stops.getALL_STOPS().get("111390"), // <> Mission at Walbran
 								Stops.getALL_STOPS().get("111391"), // <> ?? Mission at Shetland
@@ -335,8 +340,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111379"), // != Ryan at Puntledge (WB)
 								Stops.getALL_STOPS().get("111380"), // == Old Island at Puntledge (SB)
 								Stops.getALL_STOPS().get("111489"), // == ++ Anderton at 3rd St
-								Stops.getALL_STOPS().get("111486"), // == Downtown Exchange Bay A
-						})) //
+								Stops.getALL_STOPS().get("111486") // == Downtown Exchange Bay A
+						)) //
 				.compileBothTripSort());
 		ALL_ROUTE_TRIPS2 = map2;
 	}
@@ -526,9 +531,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				}
 			}
 		}
-		System.out.printf("\n%s: Unexpected trips headsign for %s!\n", mTrip.getRouteId(), gTrip);
-		System.exit(-1);
-		return;
+		MTLog.logFatal("%s: Unexpected trips head-sign for %s!", mTrip.getRouteId(), gTrip);
 	}
 
 	@Override
@@ -606,13 +609,12 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		System.out.printf("\n%s: Unexpected trips to merge: %s & %s!\n", mTrip.getRouteId(), mTrip, mTripToMerge);
-		System.exit(-1);
+		MTLog.logFatal("%s: Unexpected trips to merge: %s & %s!", mTrip.getRouteId(), mTrip, mTripToMerge);
 		return false;
 	}
 
 	private static final String EXCH = "Exch";
-	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W){1}(exchange)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W)(exchange)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String EXCHANGE_REPLACEMENT = "$2" + EXCH + "$4";
 
 	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^[\\d]+[\\S]*)", Pattern.CASE_INSENSITIVE);
@@ -620,7 +622,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	private static final Pattern ENDS_WITH_VIA = Pattern.compile("( via .*$)", Pattern.CASE_INSENSITIVE);
 	private static final Pattern STARTS_WITH_TO = Pattern.compile("(^.*( )?to )", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern DOWNTOWN_ = Pattern.compile("((^|\\W){1}(downtwon)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern DOWNTOWN_ = Pattern.compile("((^|\\W)(downtwon)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String DOWNTOWN_REPLACEMENT = "$2" + "Downtown" + "$4";
 
 	@Override
@@ -639,13 +641,12 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
-	private static final Pattern STARTS_WITH_IMPL = Pattern.compile("(^(\\(\\-IMPL\\-\\)))", Pattern.CASE_INSENSITIVE);
-	private static final Pattern STARTS_WITH_BOUND = Pattern.compile("(^(east|west|north|south)bound)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_IMPL = Pattern.compile("(^(\\(-IMPL-\\)))", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public String cleanStopName(String gStopName) {
 		gStopName = STARTS_WITH_IMPL.matcher(gStopName).replaceAll(StringUtils.EMPTY);
-		gStopName = STARTS_WITH_BOUND.matcher(gStopName).replaceAll(StringUtils.EMPTY);
+		gStopName = CleanUtils.cleanBounds(gStopName);
 		gStopName = CleanUtils.CLEAN_AT.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		gStopName = EXCHANGE.matcher(gStopName).replaceAll(EXCHANGE_REPLACEMENT);
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
