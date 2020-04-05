@@ -30,8 +30,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// https://bctransit.com/*/footer/open-data
-// https://bctransit.com/servlet/bctransit/data/GTFS - Comox Valley
+// https://www.bctransit.com/open-data
 // https://comox.mapstrat.com/current/google_transit.zip
 public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
@@ -133,16 +132,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
 
 	@Override
-	public long getRouteId(GRoute gRoute) {
-		if (Utils.isDigitsOnly(gRoute.getRouteShortName())) {
-			return Long.parseLong(gRoute.getRouteShortName()); // use route short name as route ID
-		}
-		Matcher matcher = DIGITS.matcher(gRoute.getRouteShortName());
-		if (matcher.find()) {
-			return Long.parseLong(matcher.group()); // merge routes
-		}
-		MTLog.logFatal("Unexpected route ID %s!", gRoute);
-		return -1L;
+	public long getRouteId(GRoute gRoute) { // used by GTFS-RT
+		return super.getRouteId(gRoute);
 	}
 
 	@Override
@@ -157,7 +148,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean mergeRouteLongName(MRoute mRoute, MRoute mRouteToMerge) {
-		if (mRoute.getId() == 1L) {
+		final long rsn = Long.parseLong(mRoute.getShortName());
+		if (rsn == 1L) {
 			mRoute.setLongName("Comox Mall / Anfield Ctr Via N.I.C.");
 			return true;
 		}
@@ -218,7 +210,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
-		map2.put(5L, new RouteTripSpec(5L, //
+		map2.put(5L, new RouteTripSpec(5L, // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.NORTH, MTrip.HEADSIGN_TYPE_STRING, "Comox Valley Sports Ctr", //
 				StrategicMappingCommons.SOUTH, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(StrategicMappingCommons.NORTH, //
@@ -237,7 +229,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(6L, new RouteTripSpec(6L, //
+		map2.put(6L, new RouteTripSpec(6L, // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -258,7 +250,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A =>
 						)) //
 				.compileBothTripSort());
-		map2.put(13L, new RouteTripSpec(13L, //
+		map2.put(13L, new RouteTripSpec(13L, // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "Merville", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -274,7 +266,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(99L, new RouteTripSpec(99L, //
+		map2.put(99L, new RouteTripSpec(99L, // SPLITTED FROM 1 DIRECTION HEAD-SIGN
 				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "AM", // AM
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "PM") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
@@ -348,34 +340,41 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public int compareEarly(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
-		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
-			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
+		final long rsn = this.routeIdToShortName.get(routeId);
+		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
+			return ALL_ROUTE_TRIPS2.get(rsn).compare(rsn, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
 		}
-		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
+		return super.compareEarly(rsn, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
 	}
 
 	@Override
 	public ArrayList<MTrip> splitTrip(MRoute mRoute, GTrip gTrip, GSpec gtfs) {
-		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return ALL_ROUTE_TRIPS2.get(mRoute.getId()).getAllTrips();
+		final long rsn = Long.parseLong(mRoute.getShortName());
+		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
+			return ALL_ROUTE_TRIPS2.get(rsn).getAllTrips();
 		}
 		return super.splitTrip(mRoute, gTrip, gtfs);
 	}
 
 	@Override
 	public Pair<Long[], Integer[]> splitTripStop(MRoute mRoute, GTrip gTrip, GTripStop gTripStop, ArrayList<MTrip> splitTrips, GSpec routeGTFS) {
-		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()), this);
+		final long rsn = Long.parseLong(mRoute.getShortName());
+		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
+			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(rsn), this);
 		}
 		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
 	}
 
+	private final HashMap<Long, Long> routeIdToShortName = new HashMap<>();
+
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
+		final long rsn = Long.parseLong(mRoute.getShortName());
+		this.routeIdToShortName.put(mRoute.getId(), rsn);
+		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
 			return; // split
 		}
-		if (mRoute.getId() == 1L) {
+		if (rsn == 1L) {
 			if (!"1".equalsIgnoreCase(gTrip.getRouteId())) {
 				if ("16".equalsIgnoreCase(gTrip.getRouteId())) { // Comox Mall - EAST
 					if (gTrip.getDirectionId() == 1) {
@@ -416,7 +415,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 2L) {
+		} else if (rsn == 2L) {
 			if (gTrip.getDirectionId() == 0) { // Anfield Ctr - NORTH
 				if ("Anfield Centre".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "To Downtown".equalsIgnoreCase(gTrip.getTripHeadsign()) //
@@ -430,7 +429,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 3L) {
+		} else if (rsn == 3L) {
 			if (gTrip.getDirectionId() == 1) { //
 				if ("Comox Local".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "Comox Local to Isfeld School".equalsIgnoreCase(gTrip.getTripHeadsign())) {
@@ -438,7 +437,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 4L) {
+		} else if (rsn == 4L) {
 			if (gTrip.getDirectionId() == 1) { // Comox Mall - EAST
 				if ("Comox Mall Via Comox Rd".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.EAST);
@@ -450,7 +449,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 7L) {
+		} else if (rsn == 7L) {
 			if (gTrip.getDirectionId() == 1) { //
 				if ("Arden".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "Arden to Driftwood Mall".equalsIgnoreCase(gTrip.getTripHeadsign())) {
@@ -458,7 +457,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 8L) {
+		} else if (rsn == 8L) {
 			if (gTrip.getDirectionId() == 0) { // Downtown - NORTH
 				if ("Downtown Via Willemar".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
@@ -470,7 +469,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 10L) {
+		} else if (rsn == 10L) {
 			if (gTrip.getDirectionId() == 0) { // Downtown Courtenay - NORTH
 				if ("Downtown Courtenay".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "Anfield Centre to 8 Downtown".equalsIgnoreCase(gTrip.getTripHeadsign())) {
@@ -483,7 +482,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 11L) {
+		} else if (rsn == 11L) {
 			if (gTrip.getDirectionId() == 1) { // Airport - EAST
 				if ("Airport".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "Airport - Powell R. Ferry".equalsIgnoreCase(gTrip.getTripHeadsign())) {
@@ -496,7 +495,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 12L) {
+		} else if (rsn == 12L) {
 			if (gTrip.getDirectionId() == 0) { // Oyster River - NORTH
 				if ("North Valley Connector".equalsIgnoreCase(gTrip.getTripHeadsign()) // <>
 						|| "Oyster River Via Vanier".equalsIgnoreCase(gTrip.getTripHeadsign())) {
@@ -511,7 +510,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 14L) {
+		} else if (rsn == 14L) {
 			if (gTrip.getDirectionId() == 0) { // Downtown - NORTH
 				if ("Downtown".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
@@ -523,7 +522,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 20L) {
+		} else if (rsn == 20L) {
 			if (gTrip.getDirectionId() == 0) { //
 				if ("Cumberland Via Royston".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.WEST);
@@ -537,7 +536,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
-		if (mTrip.getRouteId() == 1L) {
+		final long rsn = this.routeIdToShortName.get(mTrip.getRouteId());
+		if (rsn == 1L) {
 			if (Arrays.asList( //
 					"Downtown", // <>
 					"Anfield Ctr" //
@@ -552,7 +552,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("Comox Mall", mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 2L) {
+		} else if (rsn == 2L) {
 			if (Arrays.asList( //
 					"Comox Mall", //
 					"Downtown", //
@@ -561,7 +561,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("Anfield Ctr", mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 3L) {
+		} else if (rsn == 3L) {
 			if (Arrays.asList( //
 					"Isfeld School", //
 					"Comox Local" //
@@ -569,7 +569,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("Comox Local", mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 7L) {
+		} else if (rsn == 7L) {
 			if (Arrays.asList( //
 					"Driftwood Mall", //
 					"Arden" //
@@ -577,7 +577,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("Arden", mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 10L) {
+		} else if (rsn == 10L) {
 			if (Arrays.asList( //
 					"Downtown", //
 					"Downtown Courtenay" //
@@ -585,7 +585,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("Downtown Courtenay", mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 11L) {
+		} else if (rsn == 11L) {
 			if (Arrays.asList( //
 					"Airport - Powell R. Ferry", //
 					"Airport" //
@@ -593,7 +593,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("Airport", mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 12L) {
+		} else if (rsn == 12L) {
 			if (Arrays.asList( //
 					"North Vly Connector", // <>
 					"Oyster River" //
@@ -655,7 +655,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public int getStopId(GStop gStop) {
-		return Integer.parseInt(gStop.getStopCode()); // use stop code as stop ID
+	public int getStopId(GStop gStop) { // used by GTFS-RT
+		return super.getStopId(gStop);
 	}
 }
