@@ -210,7 +210,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
-		map2.put(5L, new RouteTripSpec(5L, // SPLITTED FROM 1 DIRECTION
+		map2.put(5L, new RouteTripSpec(5L, // 5 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.NORTH, MTrip.HEADSIGN_TYPE_STRING, "Comox Valley Sports Ctr", //
 				StrategicMappingCommons.SOUTH, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(StrategicMappingCommons.NORTH, //
@@ -229,7 +229,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(6L, new RouteTripSpec(6L, // SPLITTED FROM 1 DIRECTION
+		map2.put(6L, new RouteTripSpec(6L, // 6 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -250,7 +250,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A =>
 						)) //
 				.compileBothTripSort());
-		map2.put(13L, new RouteTripSpec(13L, // SPLITTED FROM 1 DIRECTION
+		map2.put(12L, new RouteTripSpec(12L, // 13 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "Merville", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -266,11 +266,11 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(99L, new RouteTripSpec(99L, // SPLITTED FROM 1 DIRECTION HEAD-SIGN
+		map2.put(15L, new RouteTripSpec(15L, // 99 // SPLITTED FROM 1 DIRECTION HEAD-SIGN
 				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "AM", // AM
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "PM") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
-						Arrays.asList(//
+						Arrays.asList( //
 								Stops.getALL_STOPS().get("111486"), // xx <> Downtown Exchange Bay A
 								Stops.getALL_STOPS().get("111381"), // != != 5th St 70 block
 								Stops.getALL_STOPS().get("111375"), // != Lerwick at Valley View
@@ -305,7 +305,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // xx <> Downtown Exchange Bay A
 						)) //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE, //
-						Arrays.asList(//
+						Arrays.asList( //
 								Stops.getALL_STOPS().get("111492"), // <> Vanier 2990 block
 								Stops.getALL_STOPS().get("111390"), // <> Mission at Walbran
 								Stops.getALL_STOPS().get("111390"), // <> Mission at Walbran
@@ -340,27 +340,24 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public int compareEarly(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
-		final long rsn = this.routeIdToShortName.get(routeId);
-		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
-			return ALL_ROUTE_TRIPS2.get(rsn).compare(rsn, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
+		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
+			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
 		}
-		return super.compareEarly(rsn, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
+		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
 	}
 
 	@Override
 	public ArrayList<MTrip> splitTrip(MRoute mRoute, GTrip gTrip, GSpec gtfs) {
-		final long rsn = Long.parseLong(mRoute.getShortName());
-		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
-			return ALL_ROUTE_TRIPS2.get(rsn).getAllTrips();
+		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
+			return ALL_ROUTE_TRIPS2.get(mRoute.getId()).getAllTrips();
 		}
 		return super.splitTrip(mRoute, gTrip, gtfs);
 	}
 
 	@Override
 	public Pair<Long[], Integer[]> splitTripStop(MRoute mRoute, GTrip gTrip, GTripStop gTripStop, ArrayList<MTrip> splitTrips, GSpec routeGTFS) {
-		final long rsn = Long.parseLong(mRoute.getShortName());
-		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
-			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(rsn), this);
+		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
+			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()), this);
 		}
 		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
 	}
@@ -369,11 +366,11 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
-		final long rsn = Long.parseLong(mRoute.getShortName());
-		this.routeIdToShortName.put(mRoute.getId(), rsn);
-		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
+		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
 			return; // split
 		}
+		final long rsn = Long.parseLong(mRoute.getShortName());
+		this.routeIdToShortName.put(mRoute.getId(), rsn);
 		if (rsn == 1L) {
 			if (!"1".equalsIgnoreCase(gTrip.getRouteId())) {
 				if ("16".equalsIgnoreCase(gTrip.getRouteId())) { // Comox Mall - EAST
