@@ -436,6 +436,10 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (rsn == 4L) {
 			if (gTrip.getDirectionId() == 1) { // Comox Mall - EAST
+				if ("".equalsIgnoreCase(gTrip.getTripHeadsign())) { // FIXME
+					mTrip.setHeadsignString(cleanTripHeadsign("Comox Mall"), StrategicMappingCommons.EAST);
+					return;
+				}
 				if ("Comox Mall Via Comox Rd".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.EAST);
 					return;
@@ -494,12 +498,20 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (rsn == 12L) {
 			if (gTrip.getDirectionId() == 0) { // Oyster River - NORTH
+				if ("".equalsIgnoreCase(gTrip.getTripHeadsign())) { // FIXME
+					mTrip.setHeadsignString(cleanTripHeadsign("Oyster River"), StrategicMappingCommons.NORTH);
+					return;
+				}
 				if ("North Valley Connector".equalsIgnoreCase(gTrip.getTripHeadsign()) // <>
 						|| "Oyster River Via Vanier".equalsIgnoreCase(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 1) { // Downtown Courtenay - SOUTH
+				if ("".equalsIgnoreCase(gTrip.getTripHeadsign())) { // FIXME
+					mTrip.setHeadsignString(cleanTripHeadsign("Downtown Courtenay"), StrategicMappingCommons.SOUTH);
+					return;
+				}
 				if ("North Valley Connector".equalsIgnoreCase(gTrip.getTripHeadsign()) // <>
 						|| "Downtown Courtenay Via N.I.C.".equalsIgnoreCase(gTrip.getTripHeadsign()) //
 						|| "Downtown Courtenay Via Vanier".equalsIgnoreCase(gTrip.getTripHeadsign())) {
@@ -527,7 +539,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				}
 			}
 		}
-		MTLog.logFatal("%s: Unexpected trips head-sign for %s!", mTrip.getRouteId(), gTrip);
+		MTLog.logFatal("%s: Unexpected trips head-sign for %s!", mTrip.getRouteId(), gTrip.toStringPlus());
 	}
 
 	@Override
