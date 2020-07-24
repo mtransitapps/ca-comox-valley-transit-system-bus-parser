@@ -210,7 +210,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
-		map2.put(5L, new RouteTripSpec(5L, // 5 // SPLITTED FROM 1 DIRECTION
+		map2.put(295L, new RouteTripSpec(295L, // 5 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.NORTH, MTrip.HEADSIGN_TYPE_STRING, "Comox Valley Sports Ctr", //
 				StrategicMappingCommons.SOUTH, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(StrategicMappingCommons.NORTH, //
@@ -229,7 +229,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(6L, new RouteTripSpec(6L, // 6 // SPLITTED FROM 1 DIRECTION
+		map2.put(296L, new RouteTripSpec(296L, // 6 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -250,7 +250,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A =>
 						)) //
 				.compileBothTripSort());
-		map2.put(12L, new RouteTripSpec(12L, // 13 // SPLITTED FROM 1 DIRECTION
+		map2.put(302L, new RouteTripSpec(302L, // 13 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "Merville", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -266,7 +266,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(15L, new RouteTripSpec(15L, // 99 // SPLITTED FROM 1 DIRECTION HEAD-SIGN
+		map2.put(305L, new RouteTripSpec(305L, // 99 // SPLITTED FROM 1 DIRECTION HEAD-SIGN
 				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "AM", // AM
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "PM") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
