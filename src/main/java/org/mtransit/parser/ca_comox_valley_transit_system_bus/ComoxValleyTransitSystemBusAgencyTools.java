@@ -142,8 +142,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		if (matcher.find()) {
 			return matcher.group(); // merge routes
 		}
-		MTLog.logFatal("Unexpected route short name %s!", gRoute);
-		return null;
+		throw new MTLog.Fatal("Unexpected route short name %s!", gRoute);
 	}
 
 	@Override
@@ -153,8 +152,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			mRoute.setLongName("Comox Mall / Anfield Ctr Via N.I.C.");
 			return true;
 		}
-		MTLog.logFatal("Unexpected routes long name to merge: %s & %s!", mRoute, mRouteToMerge);
-		return false;
+		throw new MTLog.Fatal("Unexpected routes long name to merge: %s & %s!", mRoute, mRouteToMerge);
 	}
 
 	@Override
@@ -199,8 +197,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 			case 99: return "00AA4F";
 			// @formatter:on
 			default:
-				MTLog.logFatal("%s: Unexpected route color for %s!", gRoute.getRouteId(), gRoute);
-				return null;
+				throw new MTLog.Fatal("%s: Unexpected route color for %s!", gRoute.getRouteId(), gRoute);
 			}
 		}
 		return super.getRouteColor(gRoute);
@@ -210,7 +207,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
-		map2.put(295L, new RouteTripSpec(295L, // 5 // SPLITTED FROM 1 DIRECTION
+		map2.put(311L, new RouteTripSpec(311L, // 5 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.NORTH, MTrip.HEADSIGN_TYPE_STRING, "Comox Valley Sports Ctr", //
 				StrategicMappingCommons.SOUTH, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(StrategicMappingCommons.NORTH, //
@@ -229,7 +226,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(296L, new RouteTripSpec(296L, // 6 // SPLITTED FROM 1 DIRECTION
+		map2.put(312L, new RouteTripSpec(312L, // 6 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -250,7 +247,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A =>
 						)) //
 				.compileBothTripSort());
-		map2.put(302L, new RouteTripSpec(302L, // 13 // SPLITTED FROM 1 DIRECTION
+		map2.put(318L, new RouteTripSpec(318L, // 13 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "Merville", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -266,7 +263,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(305L, new RouteTripSpec(305L, // 99 // SPLITTED FROM 1 DIRECTION HEAD-SIGN
+		map2.put(321L, new RouteTripSpec(321L, // 99 // SPLITTED FROM 1 DIRECTION HEAD-SIGN
 				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "AM", // AM
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "PM") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
@@ -539,7 +536,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				}
 			}
 		}
-		MTLog.logFatal("%s: Unexpected trips head-sign for %s!", mTrip.getRouteId(), gTrip.toStringPlus());
+		throw new MTLog.Fatal("%s: Unexpected trips head-sign for %s!", mTrip.getRouteId(), gTrip.toStringPlus());
 	}
 
 	@Override
@@ -618,8 +615,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		MTLog.logFatal("%s: Unexpected trips to merge: %s & %s!", mTrip.getRouteId(), mTrip, mTripToMerge);
-		return false;
+		throw new MTLog.Fatal("%s: Unexpected trips to merge: %s & %s!", mTrip.getRouteId(), mTrip, mTripToMerge);
 	}
 
 	private static final String EXCH = "Exch";
