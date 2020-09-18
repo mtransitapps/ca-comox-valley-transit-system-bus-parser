@@ -203,11 +203,13 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
+	private static final long ROUTE_ID_0 = 322L;
+
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
-		map2.put(311L, new RouteTripSpec(311L, // 5 // SPLITTED FROM 1 DIRECTION
+		map2.put(ROUTE_ID_0 + 5L, new RouteTripSpec(ROUTE_ID_0 + 5L, // 5 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.NORTH, MTrip.HEADSIGN_TYPE_STRING, "Comox Valley Sports Ctr", //
 				StrategicMappingCommons.SOUTH, MTrip.HEADSIGN_TYPE_STRING, "Downtown Courtenay") //
 				.addTripSort(StrategicMappingCommons.NORTH, //
@@ -226,7 +228,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(312L, new RouteTripSpec(312L, // 6 // SPLITTED FROM 1 DIRECTION
+		map2.put(ROUTE_ID_0 + 6L, new RouteTripSpec(ROUTE_ID_0 + 6L, // 6 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "NIC", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -247,7 +249,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A =>
 						)) //
 				.compileBothTripSort());
-		map2.put(318L, new RouteTripSpec(318L, // 13 // SPLITTED FROM 1 DIRECTION
+		map2.put(ROUTE_ID_0 + 12L, new RouteTripSpec(ROUTE_ID_0 + 12L, // 13 // SPLITTED FROM 1 DIRECTION
 				StrategicMappingCommons.COUNTERCLOCKWISE_0, MTrip.HEADSIGN_TYPE_STRING, "Merville", //
 				StrategicMappingCommons.COUNTERCLOCKWISE_1, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(StrategicMappingCommons.COUNTERCLOCKWISE_0, //
@@ -263,7 +265,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("111486") // Downtown Exchange Bay A
 						)) //
 				.compileBothTripSort());
-		map2.put(321L, new RouteTripSpec(321L, // 99 // SPLITTED FROM 1 DIRECTION HEAD-SIGN
+		map2.put(ROUTE_ID_0 + 15L, new RouteTripSpec(ROUTE_ID_0 + 15L, // 99 // SPLITTED FROM 1 DIRECTION HEAD-SIGN
 				StrategicMappingCommons.CLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "AM", // AM
 				StrategicMappingCommons.COUNTERCLOCKWISE, MTrip.HEADSIGN_TYPE_STRING, "PM") // PM
 				.addTripSort(StrategicMappingCommons.CLOCKWISE, //
