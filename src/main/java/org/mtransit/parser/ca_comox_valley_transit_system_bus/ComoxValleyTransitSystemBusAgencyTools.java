@@ -63,6 +63,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	private void setupNext() {
+		// DO NOTHING
 	}
 
 	@Override
@@ -70,15 +71,8 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return this.serviceIds != null && this.serviceIds.isEmpty();
 	}
 
-	private static final String INCLUDE_ONLY_SERVICE_ID_CONTAINS = null;
-
 	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
-		//noinspection ConstantConditions
-		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null  //
-				&& !gCalendar.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
-			return true;
-		}
 		if (this.serviceIds != null) {
 			return excludeUselessCalendar(gCalendar, this.serviceIds);
 		}
@@ -87,11 +81,6 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeCalendarDate(GCalendarDate gCalendarDates) {
-		//noinspection ConstantConditions
-		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null
-				&& !gCalendarDates.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
-			return true;
-		}
 		if (this.serviceIds != null) {
 			return excludeUselessCalendarDate(gCalendarDates, this.serviceIds);
 		}
@@ -113,11 +102,6 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean excludeTrip(GTrip gTrip) {
-		//noinspection ConstantConditions
-		if (INCLUDE_ONLY_SERVICE_ID_CONTAINS != null
-				&& !gTrip.getServiceId().contains(INCLUDE_ONLY_SERVICE_ID_CONTAINS)) {
-			return true;
-		}
 		if (this.serviceIds != null) {
 			return excludeUselessTrip(gTrip, this.serviceIds);
 		}
@@ -203,9 +187,9 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return super.getRouteColor(gRoute);
 	}
 
-	private static final long ROUTE_ID_0 = 322L;
+	private static final long ROUTE_ID_0 = 354L;
 
-	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
+	private static final HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
@@ -538,7 +522,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 				}
 			}
 		}
-		throw new MTLog.Fatal("%s: Unexpected trips head-sign for %s!", mTrip.getRouteId(), gTrip.toStringPlus());
+		throw new MTLog.Fatal("%s: %s: Unexpected trips head-sign for %s!", rsn, mTrip.getRouteId(), gTrip.toStringPlus());
 	}
 
 	@Override
