@@ -157,7 +157,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return new String[]{"VMP", "FS", "NIC", "AM", "PM"};
 	}
 
-	private static final Pattern STARTS_WITH_DCOM = Pattern.compile("(^(\\(-DCOM-\\)))", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_DCOM = Pattern.compile("(^(\\(-DCOM-\\)|\\[dcomm\\]))", Pattern.CASE_INSENSITIVE);
 	private static final Pattern STARTS_WITH_IMPL = Pattern.compile("(^(\\(-IMPL-\\)))", Pattern.CASE_INSENSITIVE);
 
 	@NotNull
