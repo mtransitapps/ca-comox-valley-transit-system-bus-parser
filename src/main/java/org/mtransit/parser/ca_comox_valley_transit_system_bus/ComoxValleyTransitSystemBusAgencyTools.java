@@ -70,6 +70,15 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return CleanUtils.cleanLabel(routeLongName);
 	}
 
+	@Nullable
+	@Override
+	public String fixColor(@Nullable String color) {
+		if ("000000".equals(color)) {
+			return null;
+		}
+		return super.fixColor(color);
+	}
+
 	@Override
 	public boolean defaultAgencyColorEnabled() {
 		return true;
@@ -88,31 +97,28 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@Nullable
 	@Override
-	public String getRouteColor(@NotNull GRoute gRoute, @NotNull MAgency agency) {
-		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
-			int rsn = Integer.parseInt(gRoute.getRouteShortName());
-			switch (rsn) {
-			// @formatter:off
-			case 1: return "004A8F";
-			case 2: return "7FB539";
-			case 3: return "F78B1F";
-			case 4: return "52A6ED";
-			case 5: return "8E0C3A";
-			case 6: return "49176D";
-			case 7: return "FCAF17";
-			case 8: return "EC008C";
-			case 9: return "401A64";
-			case 10: return "AB5C3B";
-			case 11: return "A3238E";
-			case 12: return "B2A97E";
-			case 34: return "7C3F24";
-			case 99: return "00AA4F";
-			// @formatter:on
-			default:
-				throw new MTLog.Fatal("%s: Unexpected route color for %s!", gRoute.getRouteShortName(), gRoute);
-			}
+	public String provideMissingRouteColor(@NotNull GRoute gRoute) {
+		final int rsn = Integer.parseInt(gRoute.getRouteShortName());
+		switch (rsn) {
+		// @formatter:off
+		case 1: return "004A8F";
+		case 2: return "7FB539";
+		case 3: return "F78B1F";
+		case 4: return "52A6ED";
+		case 5: return "8E0C3A";
+		case 6: return "49176D";
+		case 7: return "FCAF17";
+		case 8: return "EC008C";
+		case 9: return "401A64";
+		case 10: return "AB5C3B";
+		case 11: return "A3238E";
+		case 12: return "B2A97E";
+		case 34: return "7C3F24";
+		case 99: return "00AA4F";
+		// @formatter:on
+		default:
+			throw new MTLog.Fatal("%s: Unexpected route color for %s!", gRoute.getRouteShortName(), gRoute);
 		}
-		return super.getRouteColor(gRoute, agency);
 	}
 
 	@Override
