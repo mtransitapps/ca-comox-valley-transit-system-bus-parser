@@ -17,7 +17,6 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 // https://www.bctransit.com/open-data
-// https://comox.mapstrat.com/current/google_transit.zip
 public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(@NotNull String[] args) {
@@ -49,6 +48,11 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean useRouteShortNameForRouteId() {
 		return false; // route ID used by GTFS-RT
+	}
+
+	@Override
+	public @Nullable String getRouteIdCleanupRegex() {
+		return "\\-[A-Z]+$";
 	}
 
 	@Override
@@ -131,13 +135,13 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	@NotNull
 	@Override
-	public String cleanDirectionHeadsign(boolean fromStopName, @NotNull String directionHeadSign) {
-		directionHeadSign = super.cleanDirectionHeadsign(fromStopName, directionHeadSign);
+	public String cleanDirectionHeadsign(int directionId, boolean fromStopName, @NotNull String directionHeadSign) {
+		directionHeadSign = super.cleanDirectionHeadsign(directionId, fromStopName, directionHeadSign);
 		directionHeadSign = AIRPORT_VIA_POWELL_R_FERRY.matcher(directionHeadSign).replaceAll(AIRPORT_VIA_POWELL_R_FERRY_REPLACEMENT);
 		return directionHeadSign;
 	}
 
-	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^[\\d]+[\\S]*)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^\\d+\\S*)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern FIX_DOWNTOWN_ = CleanUtils.cleanWord("downtwon");
 	private static final String FIX_DOWNTOWN_REPLACEMENT = CleanUtils.cleanWordsReplacement("Downtown");
@@ -163,7 +167,7 @@ public class ComoxValleyTransitSystemBusAgencyTools extends DefaultAgencyTools {
 		return new String[]{"VMP", "FS", "NIC", "AM", "PM"};
 	}
 
-	private static final Pattern STARTS_WITH_DCOM = Pattern.compile("(^(\\(-DCOM-\\)|\\[dcomm\\]))", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_DCOM = Pattern.compile("(^(\\(-DCOM-\\)))", Pattern.CASE_INSENSITIVE);
 	private static final Pattern STARTS_WITH_IMPL = Pattern.compile("(^(\\(-IMPL-\\)))", Pattern.CASE_INSENSITIVE);
 
 	@NotNull
